@@ -1,0 +1,11 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.container{
+    background: linear-gradient(to bottom, rgba(22, 61, 170, 0.2) 30%, 
+    rgba(94, 117, 179, 0.3) 20%, #5e75b3 80%, #5e75b3 50%);
+    min-height: 88vh;
+    margin: 0 auto;
+}

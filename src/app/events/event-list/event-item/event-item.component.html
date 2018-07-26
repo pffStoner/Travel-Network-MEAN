@@ -1,0 +1,17 @@
+<a
+  style="cursor: pointer;"
+  [routerLink]="[index]"
+  routerLinkActive="active"
+  class="list-group-item clearfix">
+  <div class="pull-right">
+    <h4 class="list-group-item-heading">{{ event.name }}</h4>
+    <p class="list-group-item-text">{{ event.description }}</p>
+  </div>
+  <span class="pull-left">
+        <img
+          [src]="event.img"
+          alt="{{ event.name }}"
+          class="img-responsive"
+          style="max-height: 50px;">
+      </span>
+</a>

@@ -1,0 +1,123 @@
+<div class="row">
+  <div class="col-xs-12">
+
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()"> 
+      <div class="row">
+        <div class="col-xs-12">
+          <button 
+          type="submit" 
+          class="btn btn-success"
+          [disabled]="!eventForm.valid"
+          >Save</button>
+          <button type="submit" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input 
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="imgUrl">Img URL</label>
+            <input 
+            type="text"
+            id="imgUrl"            
+            formControlName="imgUrl"
+            class="form-control"
+            #imgUrl>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+           <img [src]="imgUrl.value" class="img-responsive" alt="">
+          </div>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea 
+            type="text"
+            id="description"
+            formControlName="description"
+            class="form-control">
+            </textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label for="startDate">startDate</label>
+            <input 
+            type="date"
+            id="startDate"
+            formControlName="startDate"
+            class="form-control">
+          </div>
+        </div>
+      
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label for="endDate">endDate</label>
+            <input 
+            type="date"
+            id="endDate"
+            formControlName="endDate"
+            class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!--  loop-vame prez vsichki controli na nashite Tasks, task = 2 controla-->
+        <div class="col-xs-12" formArrayName="tasks" style="margin-top: 5px">
+          <div 
+          class="row" 
+          style="margin-top: 10px"
+          *ngFor="let taskCtrl of getControls(); let i = index"
+          [formGroupName]="i">
+            <div class="col-xs-8">
+              <input 
+                type="text"
+                class="form-control"
+                formControlName="name">
+            </div>
+            <div class="col-xs-2">
+              <input 
+                type="text"
+                class="form-control"
+                formControlName="description">
+            </div>
+            <div class="col-xs-2">
+              <button type="button" class="btn btn-danger" (click)=onDeleteTask(i)>X</button>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-xs-12">
+              <button 
+              type="button"
+               class="btn btn-success" 
+               (click)="onAddingTask()"
+               >Add Task</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
