@@ -10,8 +10,9 @@
         <li routerLinkActive="active"><a routerLink="/tasks">Task List</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-       <li><a routerLink="/register">Register</a></li>
-       <li><a routerLink="/login">Login</a></li>
+       <li *ngIf="!userAuth"><a routerLink="/register">Register</a></li>
+       <li *ngIf="!userAuth"><a routerLink="/login">Login</a></li>
+       <li *ngIf="userAuth"><button >Logout</button></li>
 
       </ul>
     </div>

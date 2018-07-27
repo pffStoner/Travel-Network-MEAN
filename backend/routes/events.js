@@ -1,9 +1,10 @@
 const express = require('express');
 const Event = require('../models/event');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
 
-router.post("/api/events", (req, res, next) => {
+router.post("/api/events",checkAuth, (req, res, next) => {
     const event = new Event({
         name: req.body.name,
         description: req.body.description,
@@ -21,7 +22,7 @@ router.post("/api/events", (req, res, next) => {
     
 });
 
-router.put("/api/events/:id", (req, res, next) => {
+router.put("/api/events/:id",checkAuth, (req, res, next) => {
     const event = new Event({
         _id: req.params.id,
         name: req.body.name,
@@ -53,7 +54,7 @@ router.get('/api/events', (req, res, next) => {
     });
 });
 
-router.delete('/api/events/:id', (req, res, next) => {
+router.delete('/api/events/:id',checkAuth, (req, res, next) => {
     console.log(req.params.id);
     Event.deleteOne({_id: req.params.id}).then(result => {
         console.log('RESULT !!!!!!!!!!!!!!!!!!!!!!'+result);

@@ -1,51 +1,50 @@
-<div class="row">
-  <div class="col-xs-12">
-    <h1>{{ event.name }}</h1>
+<div class="tab1">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>{{ event.name }}</h1>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-xs-5">
-    <img
-      [src]="event.img"
-      alt="{{ event.name }}"
-      class="img-responsive"
-      style="max-height: 300px;">
+  <div class="row">
+    <div class="col-xs-5">
+      <img [src]="event.img" alt="{{ event.name }}" class="img-responsive" style="max-height: 300px;">
       <button class="btn btn-success btn-block btn-sm btn-gallery" (click)="onGallery()">Gallery</button>
       <p>start data: {{ event.startDate }}</p>
       <p>end date: {{ event.endDate }}</p>
+    </div>
+    <div class="col-xs-5">
+      {{ event.description }}
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="btn-group" appDropdown>
+          <button type="button" class="btn btn-primary dropdown-toggle">
+            Manage Event
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a (click)="onAddToShoppingList()" style="cursor: pointer;">To Task List</a>
+            </li>
+            <li>
+              <a style="cursor: pointer;" (click)="onEditEvent()">Edit Task</a>
+            </li>
+            <li>
+              <a style="cursor: pointer;" (click)="onDeleteEvent()">Delete Task</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
 </div>
-<div class="col-xs-5">
-  {{ event.description }}
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <div
-      class="btn-group"
-      appDropdown>
-      <button
-        type="button"
-        class="btn btn-primary dropdown-toggle">
-        Manage Event <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><a (click)="onAddToShoppingList()" style="cursor: pointer;">To Task List</a></li>
-        <li><a style="cursor: pointer;" (click)="onEditEvent()">Edit Task</a></li>
-        <li><a style="cursor: pointer;" (click)="onDeleteEvent()">Delete Task</a></li>
+  <hr>
+
+  <div class="row">
+    <div class="col-xs-10">
+      <ul class="list-group tasks">
+        <li class="list-group-item" *ngFor="let task of event.tasks">
+          {{ task.name }} - {{ task.description }}
+          <button class="btn btn-success pull-right ">Assign</button>
+        </li>
       </ul>
     </div>
   </div>
-</div>
-<hr>
-
-<div class="row">
-  <div class="col-xs-10">
-    <ul class="list-group tasks">
-      <li
-        class="list-group-item"
-        *ngFor="let task of event.tasks">
-        {{ task.name }} - {{ task.description }}
-        <button class="btn btn-success pull-right ">Assign</button>
-      </li>
-    </ul>
-  </div>
-</div>

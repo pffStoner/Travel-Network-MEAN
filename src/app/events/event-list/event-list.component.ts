@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Event } from '../../models/event.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Response } from '@angular/http';
-import { DataStorageService } from '../../services/data-storage.service';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Component({
@@ -15,11 +15,13 @@ import { DataStorageService } from '../../services/data-storage.service';
 export class EventListComponent implements OnInit, OnDestroy {
   events: Event[];
   subscribtion = new Subscription;
+  userAuth = false;
+  authListenerSubs: Subscription;
 
   constructor(private eventService: EventService,
               private router: Router,
               private route: ActivatedRoute,
-              private dataStorage: DataStorageService) {
+              private authService: AuthService) {
 
   }
 
@@ -32,26 +34,27 @@ export class EventListComponent implements OnInit, OnDestroy {
           this.events = event;
         }
     );
-    //
-   // this.events = this.eventService.getEvents();
+    this.userAuth = this.authService.getAuthStatus();
+    this.authListenerSubs =  this.authService
+        .getAuthStatusListener()
+        .subscribe(
+          {
+            next: isAuth => {
+              this.userAuth = isAuth;
+          }
+          }
+        );
+      console.log(this.userAuth);
+
+
   }
 
   onNewEvent() {
     this.router.navigate(['new'], {relativeTo: this.route});
   }
-  onSaveData() {
-    this.dataStorage.storeEvents()
-      .subscribe(
-        (response: Response) => {
-          console.log(response);
-        }
-      );
-    }
-    // tuk ne ni trbva subscribe, zashtot sme go napravili v service-a
-    fetchData() {
-      this.dataStorage.getEvents();
-    }
+
   ngOnDestroy() {
+    this.authListenerSubs.unsubscribe();
     this.subscribtion.unsubscribe();
   }
 }
