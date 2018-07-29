@@ -19,9 +19,9 @@ export class EventListComponent implements OnInit, OnDestroy {
   authListenerSubs: Subscription;
 
   constructor(private eventService: EventService,
-              private router: Router,
-              private route: ActivatedRoute,
-              private authService: AuthService) {
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService) {
 
   }
 
@@ -29,28 +29,25 @@ export class EventListComponent implements OnInit, OnDestroy {
     this.eventService.httpGetEvents();
     // ako se promeni shte poluchim tuk nov array ot events
     this.subscribtion = this.eventService.eventChanged.subscribe(
-        (event: Event[]) => {
-          // prisvoqvame poluchenite eventi na tezi, koito izpolzvame za display
-          this.events = event;
-        }
+      (event: Event[]) => {
+        // prisvoqvame poluchenite eventi na tezi, koito izpolzvame za display
+        this.events = event;
+      }
     );
     this.userAuth = this.authService.getAuthStatus();
-    this.authListenerSubs =  this.authService
-        .getAuthStatusListener()
-        .subscribe(
-          {
-            next: isAuth => {
-              this.userAuth = isAuth;
+    this.authListenerSubs = this.authService
+      .getAuthStatusListener()
+      .subscribe(
+        {
+          next: isAuth => {
+            this.userAuth = isAuth;
           }
-          }
-        );
-      console.log(this.userAuth);
-
-
+        }
+      );
   }
 
   onNewEvent() {
-    this.router.navigate(['new'], {relativeTo: this.route});
+    this.router.navigate(['new'], { relativeTo: this.route });
   }
 
   ngOnDestroy() {

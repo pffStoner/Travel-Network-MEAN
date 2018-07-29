@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +9,14 @@ import * as firebase from 'firebase';
 })
 export class AppComponent implements OnInit {
   loadedFeature = 'event';
+  /**
+   *
+   */
+  constructor(private authServ: AuthService) {
+
+  }
   ngOnInit() {
-    firebase.initializeApp({
-      apiKey: 'AIzaSyAjJopCv7ujZSBzBu9soqaKL64Yslnt-e8',
-      authDomain: 'travelnetwork-db40e.firebaseapp.com'
-    });
+     this.authServ.autoAuthUser();
   }
   onNavigate(feature: string) {
     this.loadedFeature = feature;

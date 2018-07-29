@@ -12,7 +12,9 @@
       <ul class="nav navbar-nav navbar-right">
        <li *ngIf="!userAuth"><a routerLink="/register">Register</a></li>
        <li *ngIf="!userAuth"><a routerLink="/login">Login</a></li>
-       <li *ngIf="userAuth"><button >Logout</button></li>
+       <li *ngIf="userAuth">
+         <button (click)="onLogout()" >Logout</button>
+        </li>
 
       </ul>
     </div>

@@ -13,11 +13,15 @@ authListenerSubs: Subscription;
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+   this.userAuth = this.authService.getAuthStatus();
 this.authListenerSubs =   this.authService
   .getAuthStatusListener()
   .subscribe(isAuth => {
     this.userAuth = isAuth;
   });
+}
+onLogout() {
+  this.authService.Logout();
 }
 
 ngOnDestroy() {

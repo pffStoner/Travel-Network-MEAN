@@ -8,14 +8,15 @@ import { TaskListComponent } from './task-list/task-list.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { EventGalleryComponent } from './events/event-gallery/event-gallery.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/events', pathMatch: 'full'},
     { path: 'events', component: EventsComponent, children: [
         {path: '', component: EventStartComponent },
-        {path: 'new', component: EventEditComponent },
+        {path: 'new', component: EventEditComponent, canActivate: [AuthGuard] },
         {path: ':id', component: EventDetailComponent},
-        {path: ':id/edit', component: EventEditComponent},
+        {path: ':id/edit', component: EventEditComponent, canActivate: [AuthGuard]},
         {path: ':id/gallery', component: EventGalleryComponent}
 
     ] },
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forRoot(appRoutes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
+    providers: [AuthGuard]
 })
 export class AppRoutingModule {
 

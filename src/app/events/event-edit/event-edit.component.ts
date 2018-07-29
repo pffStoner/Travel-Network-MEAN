@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs';
 export class EventEditComponent implements OnInit {
   subscribtion = new Subscription;
   id;
+  createdBy: string;
   eId;
   editMode = false;
   try;
@@ -60,7 +61,7 @@ export class EventEditComponent implements OnInit {
 
   if (this.editMode) {
     const event = this.eService.getEvent(this.id);
-    this.eId = event.id,
+    this.eId = event.id;
     eventName = event.name;
     eventImgPath = event.img;
     description = event.description;
@@ -68,9 +69,9 @@ export class EventEditComponent implements OnInit {
     endDate = event.endDate;
 
     // proverqvame dali imame nqkakva zadachi
-    if (event['task']) {
+    if (event['tasks']) {
         // tslint:disable-next-line:prefer-const
-        for (let task of event.task) {
+        for (let task of event.tasks) {
             eventTasks.push(
               new FormGroup({
                 'name': new FormControl(task.name, Validators.required),
@@ -98,6 +99,8 @@ export class EventEditComponent implements OnInit {
        this.eventForm.value['description'],
        this.eventForm.value['imgUrl'],
        this.eventForm.value['tasks'],
+       null,
+        null,
        this.eventForm.value['startDate'],
        this.eventForm.value['endDate']
       );
@@ -110,6 +113,7 @@ export class EventEditComponent implements OnInit {
     } else {
     //  this.eService.addEvent(newEvent);
         this.eService.httpAddEvent(newEvent);
+        console.log(newEvent);
     }
     console.log(this.eventForm);
     this.onCancel();
