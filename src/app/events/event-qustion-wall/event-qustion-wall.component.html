@@ -1,0 +1,23 @@
+<p>
+  event-qustion-wall works!
+</p>
+<div class="row">
+  <div class="col-md-10">
+   <div class="row">
+     <input #question class="form-control" type="text" placeholder="Ask your question here…" type="text">
+     <button (click)="onAddQuestion(question)" class="btn btn-outline-primary">Ask</button>
+   </div>
+
+  <div class="row" *ngFor="let q of questionWall; let i = index">
+      <li class="list-group-item">{{q.username}}</li>
+    <h3>{{q.question}}</h3>
+    <ul *ngFor="let ans of q?.answers; let i = index" class="list-group">
+     
+        <li class="list-group-item">{{ans.answer}}</li>
+      </ul>
+      <input  #answer class="form-control" type="text" placeholder="Answer question here…" type="text">
+      <button (click)="onAnswerQuestion(q._id, answer)" class="btn btn-outline-primary">Post</button>
+  </div>
+
+  </div>
+</div>

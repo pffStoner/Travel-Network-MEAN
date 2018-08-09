@@ -1,9 +1,0 @@
-p {
-    width: 330px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
-    background-color:rgb(47, 102, 116);
-}

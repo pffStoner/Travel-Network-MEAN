@@ -1,0 +1,64 @@
+
+<div #sideChat id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" (click)="closeNav(sideChat,main)">&times;</a>
+  <mat-tab-group >
+      <mat-tab label="First"> Content 1 
+         <div class="row">
+           <div class="col-md-12">
+              <a (click)="onJoinGlobalRoom()" style="cursor: pointer;" >Global room</a>
+          <div class="form-field" style="color:white;">
+            <label>Room Name</label>
+            <input #input type="text" name="room" autofocus>
+            <button (click)="onJoinRoom(input)" class="btn btn-outline-primary">Join Room</button>
+            <button (click)="onLeaveRoom(input)" class="btn btn-outline-danger">Leave Room</button>
+        
+          </div>
+          <div class="row">
+            <div class="col-md-4 people">
+              <h3>People</h3>
+              <p>john</p>
+              <p>bobu</p>
+              <ul class="list-group tasks">
+                <li class="list-group-item" *ngFor="let user of userList; let i = index">
+                  {{i}} . {{ user }}
+                </li>
+              </ul>
+            </div>
+        
+        
+            <div class="col-md-8 body">
+              <div class="jumbotron" *ngFor="let msg of messages">
+                {{msg.text}} {{msg.from}}
+              </div>
+              <input class="from-control" [(ngModel)]="message" type="text" />
+              <button class="btn btn-outline-success" (click)="sendMessage()">send</button>
+            </div>
+          </div>
+           </div>
+         </div>
+      </mat-tab>
+      <mat-tab label="Second"> 
+        <div class="row">
+          <div class="col-md-12">
+              <ul class="list-group tasks">
+                  <li class="list-group-item" *ngFor="let mail of mailbox?.mailbox; let i = index" taskIndex="i">
+                    <div class="row">
+                      <h2> Title{{mail.title}}</h2>
+                      <div class="col-md-6">Date: {{mail.date}}</div>
+                      <div class="col-md-6">Author {{mail.author}}</div>
+                      <p> Content {{mail.content}}</p>
+                    </div>
+                   
+                  </li>
+                </ul>
+          </div>
+        </div> </mat-tab>
+      <mat-tab label="Third"> Content 3 </mat-tab>
+    </mat-tab-group>
+ 
+</div>
+
+<div #main id="main" style="cursor:pointer; padding: 0;">
+
+  <a style="cursor:pointer; padding: 0;" (click)="openNav(sideChat,main)">chat</a>
+</div>

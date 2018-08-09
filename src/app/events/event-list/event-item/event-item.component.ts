@@ -10,9 +10,14 @@ export class EventItemComponent implements OnInit {
 
   @Input() event: Event;
   @Input() index;
-
+/**
+ *
+ */
+constructor() {}
 
   ngOnInit() {
   }
+
+
 
 }

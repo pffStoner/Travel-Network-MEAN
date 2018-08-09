@@ -18,7 +18,7 @@ export class RegisterComponent {
       return;
     }
 
-    this.aService.register(form.value.email, form.value.password);
+    this.aService.register(form.value.username, form.value.email, form.value.password);
 
   }
 }

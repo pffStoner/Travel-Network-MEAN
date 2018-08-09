@@ -1,1 +1,176 @@
-/* You can add global styles to this file, and also import other style files */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.container-fluid{
+    /* background: linear-gradient(to bottom, rgba(22, 61, 170, 0.2) 30%, 
+    rgba(94, 117, 179, 0.3) 20%, #5e75b3 80%, #5e75b3 50%); */
+    background: linear-gradient(to bottom, rgba(58, 8, 8, 0.247),rgba(11, 212, 54, 0.4)),
+    url('https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/B8FU8DFSipsctoeb/himalayas-nepal-mountain-sky-view-landscape-time-lapse-nature-background-4k-video-travel-tourism-trekking-climbing-scene_bnqunexk__F0000.png');
+    /* url('https://png2.kisspng.com/20180328/vbq/kisspng-student-exchange-program-university-computer-softw-travel-5abb6e88eae9b0.5333174515222329689622.png');  */
+    min-height: 88vh;
+    margin: 0 auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    background-attachment: fixed;
+    background-size: cover;
+}
+.row{
+    margin: 0;
+    padding: 0;
+}
+/* Map component */
+agm-map{
+    height: 555px;
+}
+.road-panel{
+    height: 100vh;
+    overflow-y: scroll;
+}
+/* Detail Component */
+.wraper{
+    background: linear-gradient( to right, rgba(255, 255, 255, 0.1),
+rgba(214, 245, 221, 0.9),rgba(214, 245, 221, 0.9),rgba(214, 245, 221, 0.9),rgba(247, 248, 176, 0.2));
+
+}
+/* .wraper::before{
+    content: "";
+    position: absolute;
+    height: 40%;
+    left: 0;
+    bottom: 200px;
+    display: block;
+    width: 100%;    
+    background-image: linear-gradient(to bottom, rgba(94, 117, 179, 0) 0%, 
+    rgba(94, 117, 179, 0.3) 40%, #5e75b3 70%, #5e75b3 100%);
+    pointer-events: none;
+    z-index: 2; 
+} */
+/* dropdown */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+/* end dropdown */
+.detail-img{
+max-height: 90%;
+max-width: 90%;
+}
+
+img{
+    margin: 0 auto;
+    padding: 0;
+}
+
+.btn-gallery{
+    margin-top: 5px;
+}
+.tasks{
+    width: 100% !important;
+}
+.tasks li{
+    display: flex;
+    margin-top: 5px;
+    padding: 13px;
+    align-items: center;
+    justify-content: space-between;
+    width: 80% !important;
+    /* color: white; */
+    background: 
+    linear-gradient(to bottom, rgba(238, 233, 233, 0.6),rgba(237, 255, 222, 0.8)) !important;
+}
+
+.event-nav{
+    
+    border-radius: 6px;
+    border: 0.2rem  black;
+}
+/* Event-edit Component */
+/*ng-invalid e vgraden class za vsichko nevalidno*/
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched{
+    border: 1px solid red;
+}
+
+/* Event-gallery Component */
+.gallery {
+	-webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+   
+	  
+	}	
+.col-md-3 img{ 
+    position: relative;
+    width: 200px;
+    padding: 7px 0;
+}
+    @media (max-width: 500px) {
+	.gallery {
+    column-count: 1;
+	
+    }
+}
+.image-preview{
+    height: 300px;
+}
+.image-preview img {
+    height: 100%;
+}
+
+/* Event-item Component */
+p {
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    color: black;
+    border-color: #4CAF50;
+    background: linear-gradient(to bottom, rgba(58, 8, 8, 0.247),rgba(11, 212, 54, 0.4)) !important;
+}
+
+/* Event-list Component */
+button {
+    margin: 5px;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Roboto', sans-serif; }

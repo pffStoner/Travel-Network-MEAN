@@ -1,17 +1,15 @@
-<a
-  style="cursor: pointer;"
-  [routerLink]="[index]"
-  routerLinkActive="active"
-  class="list-group-item clearfix">
-  <div class="pull-right">
+<li style="cursor: pointer;" 
+[routerLink]="[event.id]" routerLinkActive="active" 
+class="row list-group-item">
+
+  <div class="col-md-8">
     <h4 class="list-group-item-heading">{{ event.name }}</h4>
     <p class="list-group-item-text">{{ event.description }}</p>
   </div>
-  <span class="pull-left">
-        <img
-          [src]="event.img"
-          alt="{{ event.name }}"
-          class="img-responsive"
-          style="max-height: 50px;">
-      </span>
-</a>
+  <div class="col-md-4">
+    <img [src]="event.img" alt="{{ event.name }}" 
+    class="img-responsive" 
+    style="max-height: 100%; max-width:100%;">
+  </div>
+
+</li>

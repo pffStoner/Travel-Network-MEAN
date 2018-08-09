@@ -9,11 +9,8 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent implements OnInit {
   loadedFeature = 'event';
-  /**
-   *
-   */
+ 
   constructor(private authServ: AuthService) {
-
   }
   ngOnInit() {
      this.authServ.autoAuthUser();

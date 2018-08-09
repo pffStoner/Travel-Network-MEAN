@@ -9,6 +9,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { EventGalleryComponent } from './events/event-gallery/event-gallery.component';
 import { AuthGuard } from './auth/auth.guard';
+import { MapComponent } from './events/map/map.component';
+import { ChatComponent } from './chat/chat.component';
+import { EventQustionWallComponent } from './events/event-qustion-wall/event-qustion-wall.component';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/events', pathMatch: 'full'},
@@ -17,12 +20,16 @@ const appRoutes: Routes = [
         {path: 'new', component: EventEditComponent, canActivate: [AuthGuard] },
         {path: ':id', component: EventDetailComponent},
         {path: ':id/edit', component: EventEditComponent, canActivate: [AuthGuard]},
-        {path: ':id/gallery', component: EventGalleryComponent}
+        {path: ':id/gallery', component: EventGalleryComponent},
+        {path: ':id/map', component: MapComponent},
+        {path: ':id/questions', component: EventQustionWallComponent},
 
+        // {path: ':id/chat', component: ChatComponent}
     ] },
     { path: 'tasks', component: TaskListComponent},
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent},
+    { path: 'chat', component: ChatComponent},
 
 ];
 

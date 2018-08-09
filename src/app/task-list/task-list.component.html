@@ -9,7 +9,17 @@
         *ngFor="let task of tasks; let i = index"
         (click)="onEditItem(i)"
       >
-        {{ task.name }} dsdsd ({{ task.description }})
+      {{task.eventName}}
+      <hr>
+        {{ task.name }} ({{ task.description }})
+        
+        <button
+        (click)="onRemoveFromTaskList(task)" 
+        class="btn btn-outline-danger pull-right">Dismiss</button>
+        <button
+        (click)="onTaskComplete(task)" 
+        class="btn btn-outline-danger pull-right">Complete</button>
+        
       </a>
     </ul>
   </div>

@@ -4,6 +4,7 @@ import { Gallery } from '../../models/gallery.model';
 import { GalleryService } from '../../services/gallery.service';
 import { Subscription } from 'rxjs';
 import { EventService } from '../../services/event.service';
+import { log } from 'util';
 
 @Component({
   selector: 'app-event-gallery',
@@ -28,6 +29,7 @@ export class EventGalleryComponent implements OnInit {
     this.form = new FormGroup({
       image: new FormControl(null, { validators: [Validators.required] })
     });
+
   }
 
 

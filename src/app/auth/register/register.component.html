@@ -1,7 +1,8 @@
 
   <form (submit)="onRegister(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
 
-    
+      <input matInput name="username" ngModel type="text" placeholder="Username" #usernameInput="ngModel" required >
+
       <input matInput name="email" ngModel type="email" placeholder="E-Mail" #emailInput="ngModel" required email>
     
 

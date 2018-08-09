@@ -1,18 +1,21 @@
 <div class="row">
   <div class="col-xs-12">
-    <button *ngIf="userAuth" class="btn btn-success" (click)="onNewEvent()">New Event</button>
-    <button class="btn btn-primary" (click)="onSaveData()">Save Data</button>
-    <button class="btn btn-primary" (click)="fetchData()">Get Data</button>
+    <button *ngIf="userAuth" class="btn btn-outline-success" (click)="onNewEvent()">New Event</button>
+    <!-- <button class="btn btn-primary" (click)="onSaveData()">Save Data</button>
+    <button class="btn btn-primary" (click)="fetchData()">Get Data</button> -->
 
   </div>
 </div>
 <hr>
 <div class="row">
   <div class="col-xs-12">
-    <app-event-item
-      *ngFor="let eventEl of events; let i = index"
-      [event]="eventEl"
-      [index]="i"></app-event-item>
+    <ul class="tasks">
+        <app-event-item
+        *ngFor="let eventEl of events; let i = index"
+        [event]="eventEl"
+        [index]="i"></app-event-item>
+    </ul>
+   
   </div>
 </div>
 
