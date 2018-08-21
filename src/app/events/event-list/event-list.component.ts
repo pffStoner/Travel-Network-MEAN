@@ -17,6 +17,10 @@ export class EventListComponent implements OnInit, OnDestroy {
   subscribtion = new Subscription;
   userAuth = false;
   authListenerSubs: Subscription;
+  sortOption: string;
+  sortOptions: string[] = ['name', 'startDate'];
+  beforeDate;
+
 
   constructor(private eventService: EventService,
     private router: Router,
@@ -26,7 +30,7 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.eventService.httpGetEvents();
+    this.eventService.httpGetEvents(this.sortOption, this.beforeDate);
     // ako se promeni shte poluchim tuk nov array ot events
     this.subscribtion = this.eventService.eventChanged.subscribe(
       (event: Event[]) => {
@@ -53,5 +57,15 @@ export class EventListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.authListenerSubs.unsubscribe();
     this.subscribtion.unsubscribe();
+  }
+
+  onSortEvent(option) {
+    this.eventService.httpGetEvents(option.value, this.beforeDate);
+  }
+  onSortByDate(input: HTMLInputElement) {
+    console.log(input.value);
+
+
+    this.eventService.httpGetEvents(input.value, this.beforeDate);
   }
 }

@@ -32,7 +32,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // material design
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialogModule} from '@angular/material/dialog';
-import {MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule,
+  MatCheckboxModule,
+  MatRadioModule,
+MatError} from '@angular/material';
+import { ChattComponent } from './chatt/chatt.component';
+import { ErrorInterceptor } from './error.inceptor';
+import { ErrorComponent } from './error/error.component';
 
 
 
@@ -58,7 +64,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
     EventGalleryComponent,
     MapComponent,
     ChatComponent,
-    EventQustionWallComponent
+    EventQustionWallComponent,
+    ChattComponent,
+    ErrorComponent
 
   ],
   imports: [
@@ -75,12 +83,18 @@ import {MatExpansionModule} from '@angular/material/expansion';
     }),
     BrowserAnimationsModule,
     MatTabsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatDialogModule
   ],
   providers: [TaskListService,
    EventService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }

@@ -3,6 +3,8 @@ import { ActivatedRoute, Router, Params, ParamMap } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { EventService } from '../../services/event.service';
 import { Event } from '../../models/event.model';
+import { Waypoint } from '../../models/waypoints.model';
+
 import { log } from 'util';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { GalleryService } from '../../services/gallery.service';
@@ -52,7 +54,7 @@ export class MapComponent implements OnInit {
   public destination: {};
   public origin2: {};
   public destination2: {};
-  public waypoints: any = [];
+  public waypoints: Waypoint[] = [];
   public renderOptions = {
     draggable: true
   };
@@ -83,9 +85,11 @@ export class MapComponent implements OnInit {
                this.map = data.map;
                this.origin = this.map.origin;
                this.destination = this.map.destination;
-               this.waypoints = this.map.waypoint;
+               this.waypoints = this.map.waypoints.map(a =>
+                a.location = {location: a.location}
+               );
                this.markers = this.map.markers;
-                console.log('mapINFO', this.map);
+                console.log('mapINFO', this.map.waypoints);
                 // this.eventChanged.next(this.events.slice());
               });
           }
@@ -219,7 +223,7 @@ export class MapComponent implements OnInit {
   getDirection() {
     this.origin = { lat: this.markers[0].coords.lat, lng: this.markers[0].coords.lng };
     this.destination = { lat: this.markers[1].coords.lat, lng: this.markers[1].coords.lng };
-    console.log(this.origin, this.destination, this.waypoints, this.markers);
+    console.log(this.origin, this.destination, 'wayponit' + this.waypoints, this.markers);
     // const map = new Map(this.origin,this.destination, this.waypoints, this.markers);
 
     console.log(this.map);

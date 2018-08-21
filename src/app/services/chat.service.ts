@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, ViewEncapsulation } from '@angular/core';
 import * as io from 'socket.io-client';
 import { Subject, Observable, Observer } from 'rxjs';
 import { Message } from '../models/message.model';
@@ -17,6 +17,7 @@ export class ChatService {
     mailsChanged = new Subject();
     mails;
 
+    encapsulation: ViewEncapsulation.None;
     constructor(  private http: HttpClient) { }
 getMails() {
     return this.mails;
@@ -111,6 +112,23 @@ getMails() {
             // this.socket = io(this.url);
 
             this.socket.on('updatedList', (data) => {
+                observer.next(data);
+            });
+            return () => {
+                this.socket.disconect();
+            };
+
+        });
+        return observable;
+    }
+
+
+    onUpdateRoomsList() {
+
+        const observable = new Observable((observer: Observer<{}>) => {
+            // this.socket = io(this.url);
+
+            this.socket.on('rooms', (data) => {
                 observer.next(data);
             });
             return () => {

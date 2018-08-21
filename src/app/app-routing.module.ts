@@ -12,6 +12,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { MapComponent } from './events/map/map.component';
 import { ChatComponent } from './chat/chat.component';
 import { EventQustionWallComponent } from './events/event-qustion-wall/event-qustion-wall.component';
+import { ChattComponent } from './chatt/chatt.component';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/events', pathMatch: 'full'},
@@ -24,12 +25,13 @@ const appRoutes: Routes = [
         {path: ':id/map', component: MapComponent},
         {path: ':id/questions', component: EventQustionWallComponent},
 
+
         // {path: ':id/chat', component: ChatComponent}
     ] },
     { path: 'tasks', component: TaskListComponent},
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent},
-    { path: 'chat', component: ChatComponent},
+    { path: 'o', component: ChattComponent},
 
 ];
 

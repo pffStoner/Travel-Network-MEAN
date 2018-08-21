@@ -4,12 +4,13 @@ import { Message } from '../models/message.model';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 
+
 @Component({
-  selector: 'app-chat',
-  templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  selector: 'app-chatt',
+  templateUrl: './chatt.component.html',
+  styleUrls: ['./chatt.component.css']
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChattComponent implements OnInit, OnDestroy {
 
   messages = [new Message('this.message', 'mitko111')];
   connection;
@@ -21,9 +22,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   userList;
   userListSubscribe: Subscription;
   mailbox;
-  rooms;
-  room;
-  lastRoom;
   constructor(private chatService: ChatService,
   private authService: AuthService) {
   }
@@ -66,30 +64,18 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.userList = users;
         console.log('userlist', this.userList);
       });
-
-      this.chatService.onUpdateRoomsList().subscribe(rooms => {
-        this.rooms = rooms;
-        console.log('rooms', this.rooms);
-      });
   }
 
-
+  ngOnDestroy() {
+    this.connection.unsubscire();
+    this.userListSubscribe.unsubscribe();
+  }
   onJoinGlobalRoom() {
-    this.lastRoom = 'global';
-    this.chatService.leaveRoom(this.username, this.lastRoom);
     this.chatService.joinRoom(this.username, 'global');
     }
-  onJoinRoom(input) {
-    this.chatService.leaveRoom(this.username, this.lastRoom);
-if (input.value === undefined) {
-  this.room = input;
-  this.lastRoom = input;
-} else {
-  this.room = input.value;
-  this.lastRoom = input.value;
-}
-  console.log(this.room);
-  this.chatService.joinRoom(this.username, this.room);
+  onJoinRoom(input: HTMLInputElement) {
+  console.log(input.value);
+  this.chatService.joinRoom(this.username, input.value);
   }
   onLeaveRoom(input: HTMLInputElement) {
     // const filteredAry = this.userList.filter(e => e !== this.username);
@@ -106,39 +92,28 @@ if (input.value === undefined) {
     this.message = '';
     // console.log(this.message);
   }
-  openNav(el: HTMLAnchorElement, msgInput: HTMLDivElement , el2: HTMLDivElement) {
-    el.style.width = '40%';
+  openNav(el: HTMLAnchorElement, el2: HTMLDivElement) {
+    el.style.width = '50%';
     // el2.style.marginLeft = '500px';
     el2.style.visibility = 'hidden';
-    msgInput.style.visibility = 'visible';
     console.log(el);
     console.log(el2);
-    // this.chatService.httpGetEmails();
+    this.chatService.httpGetEmails();
 
-    // console.log('mailbox', this.mailbox.mailbox);
+    console.log('mailbox', this.mailbox.mailbox);
     console.log('username', this.username);
 
  }
 
-  closeNav(el: HTMLAnchorElement,  msgInput: HTMLDivElement , el2: HTMLDivElement) {
+  closeNav(el: HTMLAnchorElement, el2: HTMLDivElement) {
     console.log(el);
 
     el.style.width = '0';
     el2.style.marginLeft = '0';
     el2.style.visibility = 'visible';
-    msgInput.style.visibility = 'hidden';
 
  }
  onSendMail() {
    this.chatService.httpSendMail('5b5a13758bf57790c4b44946', 'mitko', '5b658af220d7f9b48cde0187', 'proba', 'dnes', 'daliii');
  }
- ngOnDestroy() {
-  this.connection.unsubscire();
-  this.userListSubscribe.unsubscribe();
-  this.chatService.leaveRoom(this.username, 'global');
 }
-}
-
-
-
-

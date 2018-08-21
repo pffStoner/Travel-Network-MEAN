@@ -13,7 +13,9 @@ export class Event {
         public map: Map,
         public gallery?: Gallery[],
         public startDate?: string,
-        public endDate?: string
+        public endDate?: string,
+        public slots?: number,
+        public members?
 
    ) {
 

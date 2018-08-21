@@ -1,6 +1,5 @@
 <div class="row">
-  <div class="col-xs-10">
-    <app-task-edit></app-task-edit>
+  <div class="col-xs-10" style="margin: 0 auto; width: 100%;">
     <hr>
     <ul class="list-group">
       <a
@@ -9,17 +8,17 @@
         *ngFor="let task of tasks; let i = index"
         (click)="onEditItem(i)"
       >
-      {{task.eventName}}
+  <h3>    {{task.eventName}} </h3>
+      <small></small>
       <hr>
         {{ task.name }} ({{ task.description }})
         
         <button
-        (click)="onRemoveFromTaskList(task)" 
+        (click)="onRemoveFromTaskList(task, i)" 
         class="btn btn-outline-danger pull-right">Dismiss</button>
         <button
-        (click)="onTaskComplete(task)" 
-        class="btn btn-outline-danger pull-right">Complete</button>
-        
+        (click)="onTaskComplete(task, i)" 
+        class="btn btn-outline-success pull-right">Complete</button>
       </a>
     </ul>
   </div>

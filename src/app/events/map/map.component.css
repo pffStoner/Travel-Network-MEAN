@@ -1,0 +1,19 @@
+/* Map component */
+agm-map{
+    height: 100vh;
+    margin-top: 1rem;
+}
+.road-panel{
+    height: 100vh;
+    overflow: hidden;
+}
+.road-panel:hover{
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+/* Detail Component */
+.wraper{
+    background: linear-gradient( to right, rgba(255, 255, 255, 0.1),
+rgba(214, 245, 221, 0.9),rgba(214, 245, 221, 0.9),rgba(214, 245, 221, 0.9),rgba(247, 248, 176, 0.2));
+
+}

@@ -56,13 +56,16 @@ export class TaskListComponent implements OnInit, OnDestroy {
       console.log(this.tasks);
   }
 
-  onRemoveFromTaskList(task: Task) {
+  onRemoveFromTaskList(task: Task, index) {
     task.userId = null;
     this.eventService.httpTaskToUser(null, null, task._id, false);
-  }
-  onTaskComplete(task: Task) {
+    this.taskService.deleteTasks(index);
 
-    this.eventService.httpTaskToUser(null,  task.userId, task._id, true);
+  }
+  onTaskComplete(task: Task, index) {
+    this.eventService.httpTaskToUser(null,  null, task._id, true);
+    this.taskService.deleteTasks(index);
+
   }
   onEditItem(index: number) {
     this.taskService.startedEditing.next(index);

@@ -1,3 +1,4 @@
+import { Waypoint } from './waypoints.model';
 
 
 export class Map {
@@ -9,10 +10,7 @@ export class Map {
             lat: number,
             lng: number,
         },
-        public waypoint: [{
-            lat: number,
-            lng: number,
-        }],
+        public waypoint: Waypoint[],
         public locations: [{
             location: string
         }],

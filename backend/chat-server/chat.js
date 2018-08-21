@@ -15,12 +15,14 @@ module.exports = {
         //io.emit - emit to every single connection
         var io = socketIO(server);
         var users = new Users();
+        var rooms = [];
 
         // app.use(express.static(publicPath));
 
         //listen to events
         io.on('connection', (socket) => {
             console.log('user connect');
+            socket.emit('rooms', rooms);
 
             //for angular test
             socket.on('add-message', (message) => {
@@ -30,6 +32,13 @@ module.exports = {
 
             socket.on('join', (params, callback) => {
                 //TODO: add validations for names
+                room = params.room;
+                if( rooms.indexOf(room) < 0){
+                    rooms.push(room);
+                    
+                }
+
+                io.emit('rooms', rooms);
 
                 //remove from other rooms
                 users.removeUser(socket.id);
@@ -38,12 +47,14 @@ module.exports = {
                 //join room
                 socket.join(params.room);
                 //update list
+                console.log(rooms);
+                
                 io.to(params.room).emit('updatedList', users.getUsersList(params.room));
                 //to all when join chat app
-                socket.emit('newMessage', generateMsg('Admin', 'Welcome to Chat App'));
+               socket.emit('newMessage', generateMsg('Welcome'));
                 //for new user join
                 socket.broadcast.to(params.room)
-                    .emit('newMessage', generateMsg('Admin', params.name + ' joined'));
+                    .emit('newMessage', generateMsg( params.name + ' joined'));
                 callback();
             });
 

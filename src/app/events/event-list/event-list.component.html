@@ -1,21 +1,59 @@
-<div class="row">
-  <div class="col-xs-12">
-    <button *ngIf="userAuth" class="btn btn-outline-success" (click)="onNewEvent()">New Event</button>
-    <!-- <button class="btn btn-primary" (click)="onSaveData()">Save Data</button>
-    <button class="btn btn-primary" (click)="fetchData()">Get Data</button> -->
+<div>
+  <div class="row">
+    <div class="col-xs-12">
+      <button *ngIf="userAuth" class="btn btn-outline-success" (click)="onNewEvent()">
+        New Event</button>
+      <!-- <button class="btn btn-primary" (click)="onSaveData()">Save Data</button>
+          <button class="btn btn-primary" (click)="fetchData()">Get Data</button> -->
 
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="row">
+        <mat-accordion style="width: 80%;">
+          <mat-expansion-panel style="width: 100%;
+                  background: linear-gradient(to bottom, rgba(238, 233, 233, 0.6),
+                  rgba(237, 255, 222, 0.8));">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Serch Options
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          
+              <div class="form-group">
+                  <label for="startDate">Before Date </label>
+                  <input
+                  #input
+                  type="date"
+                  (change)="onSortByDate(input)"
+                  [(ngModel)]="beforeDate"
+                  class="form-control">
+                </div>
+            <section class="example-section">
+              <label class="example-margin">Sort By:</label>
+             
+
+
+                  <mat-radio-group class="example-radio-group" [(ngModel)]="sortOption">
+                    <mat-radio-button class="example-radio-button"
+                     *ngFor="let option of sortOptions" [value]="option"
+                     (change)="onSortEvent($event)">  
+                      {{option}}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <p>{{sortOption}}</p>
+
+            </section>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <ul class="tasks">
+        <app-event-item *ngFor="let eventEl of events; let i = index" 
+        [event]="eventEl" [index]="i"></app-event-item>
+      </ul>
+
+    </div>
   </div>
 </div>
-<hr>
-<div class="row">
-  <div class="col-xs-12">
-    <ul class="tasks">
-        <app-event-item
-        *ngFor="let eventEl of events; let i = index"
-        [event]="eventEl"
-        [index]="i"></app-event-item>
-    </ul>
-   
-  </div>
-</div>
-

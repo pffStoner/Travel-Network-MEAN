@@ -7,7 +7,7 @@
     left: 0;
     background-color: #111;
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: 0.4s;
     padding-top: 60px;
 
 }
@@ -19,6 +19,7 @@
     color: #818181;
     display: block;
     transition: 0.3s;
+    position: relative;
 }
 
 .sidenav a:hover {
@@ -40,7 +41,18 @@
 .people {
     color: white;
 }
-
+.msgInput{
+    position: fixed;
+    bottom: 0px;
+    margin-right: auto;
+    margin-left: auto;
+    left: 0px;
+    right: 0px;
+visibility: hidden;
+}
+mat-tab{
+    height: 100vh;
+}
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
@@ -48,3 +60,25 @@
 .jumbotron {
     padding: 10px;
 }
+.rooms{
+    height: 15vh; 
+    overflow-y: hidden;
+}
+.rooms:hover{
+    overflow-y: auto;
+}
+.rooms ol > li{
+   border: #f1f1f1;
+   cursor: pointer;
+}
+.rooms ol > li:hover{
+    text-align: center;
+    font-size: 1.3em;
+    border: #121491;
+    border-radius: 4px;
+    background: #2f2bee;
+ }
+ .mat-tab-label {
+ color: #121491 !important;
+     background-color: #e0e0e0;
+   }

@@ -6,7 +6,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { TaskListService } from './task-list.service';
 import { Subject } from 'rxjs/Subject';
 import { Gallery } from '../models/gallery.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { log } from 'util';
 import { Router } from '@angular/router';
@@ -52,6 +52,8 @@ getEventId() {
       createdBy: string,
       startDate: string,
       endDate: string,
+      members,
+      slots: number,
       map: Map
      }>('http://localhost:3000/api/events/' + eventId);
   }
@@ -70,7 +72,8 @@ this.tsService.addTask(task);
 
   httpAddEvent(event: Event) {
     this.http
-      .post<{ msg: string, events: Event[], id: string, createdBy: string }>('http://localhost:3000/api/events', event)
+      .post<{ msg: string, events: Event[], id: string, createdBy: string }>
+      ('http://localhost:3000/api/events', event)
       .subscribe(resData => {
         console.log(resData);
         const id = resData.id;
@@ -100,9 +103,11 @@ this.tsService.addTask(task);
   // }
 
 
-  httpGetEvents() {
+  httpGetEvents(sortOption, beforeDate) {
+    const params = new HttpParams().set('sort', sortOption).set('beforeDate', beforeDate);
     this.http
-      .get<{ msg: string, events: any }>('  http://localhost:3000/api/events')
+      .get<{ msg: string, events: any }>('  http://localhost:3000/api/eventsSort',
+      {  params })
         .pipe(map((evetData) => {
           return evetData.events.map(event => {
             console.log(event);
@@ -115,7 +120,8 @@ this.tsService.addTask(task);
               gallery: event.gallery,
               createdBy: event.createdBy,
               map: event.map,
-              members: event.members
+              members: event.members,
+              slots: event.slots
             };
           }
           );
@@ -190,8 +196,10 @@ this.tsService.addTask(task);
           // if (this.qaWall.answers) {
           // }
           this.qaWall.forEach(element => {
-            element.answers.push(data.answer);
-            console.log(element.answers);
+              if (element._id === questionId) {
+                element.answers.push(data.answer);
+                console.log(element.answers);
+            }
           });
           this.qaWallChanged.next(this.qaWall);
           console.log(data);

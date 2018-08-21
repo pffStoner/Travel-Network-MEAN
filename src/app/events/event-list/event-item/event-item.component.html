@@ -1,10 +1,10 @@
-<li style="cursor: pointer;" 
+<li style="cursor: pointer; width: 100%;" 
 [routerLink]="[event.id]" routerLinkActive="active" 
 class="row list-group-item">
 
   <div class="col-md-8">
     <h4 class="list-group-item-heading">{{ event.name }}</h4>
-    <p class="list-group-item-text">{{ event.description }}</p>
+  <small *ngIf="event.slots">Free slots: {{ event.slots }}</small>
   </div>
   <div class="col-md-4">
     <img [src]="event.img" alt="{{ event.name }}" 

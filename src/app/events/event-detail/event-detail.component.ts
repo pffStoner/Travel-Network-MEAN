@@ -29,7 +29,8 @@ export class EventDetailComponent implements OnInit {
   userId: string;
   taskIndex;
   username: string;
-
+  joined: boolean;
+  freeSlots: number;
 
   constructor(private eventService: EventService,
     private route: ActivatedRoute,
@@ -38,6 +39,7 @@ export class EventDetailComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit() {
+
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -52,12 +54,16 @@ export class EventDetailComponent implements OnInit {
                 img: eventData.img,
                 tasks: eventData.tasks,
                 createdBy: eventData.createdBy,
-                startDate : eventData.startDate,
-                endDate : eventData.endDate,
+                startDate: eventData.startDate,
+                endDate: eventData.endDate,
                 map: eventData.map,
-                gallery: eventData.gallery
+                gallery: eventData.gallery,
+                members: eventData.members,
+                slots: eventData.slots
+
               };
-              console.log(this.event);
+              // console.log(this.event.members[1].userId);
+              this.freeSlots = this.event.slots - this.event.members.length;
 
             });
           //  this.realId = this.event.id;
@@ -85,20 +91,37 @@ export class EventDetailComponent implements OnInit {
     // google API
 
     // get username
-    this.authService.userNameSubject.subscribe( username => {
+    this.authService.userNameSubject.subscribe(username => {
       this.username = username;
       console.log(username);
     });
     this.username = this.authService.getUsername();
-
   }
 
+  ifUserJoin() {
+    const members = this.event.members;
+    members.forEach(element => {
+      if (element.userId === this.userId) {
+        console.log('true', this.event.id);
+        this.joined = false;
+        return this.joined;
+      } else {
+        console.log('false');
+        this.joined = true;
+
+        return this.joined;
+      }
+    });
+  }
 
 
   // navigation
   toMap() {
     this.eventService.editId.next(this.id);
     this.router.navigate(['map'], { relativeTo: this.route });
+  }
+  toQuestionWall() {
+    this.router.navigate(['questions'], { relativeTo: this.route });
   }
   onGallery() {
     this.eventService.editId.next(this.id);
@@ -136,13 +159,21 @@ export class EventDetailComponent implements OnInit {
   }
   joinEvent() {
     this.eventService.httpJoinEvent(this.event.id, this.userId, this.username);
-    console.log('join member');
-    }
-    cancelEvent() {
-      this.eventService.httpCancelEvent(this.event.id, this.userId, this.username);
-      console.log('cancel member');
+    this.event.members.push(this.userId);
+    this.freeSlots -= this.freeSlots;
+    console.log(this.event.slots);
+  }
+
+  cancelEvent() {
+    this.eventService.httpCancelEvent(this.event.id, this.userId, this.username);
+    const index = this.event.members.indexOf(this.userId);
+    if (index > -1) {
+      this.event.members.splice(index, 1);
+      this.freeSlots += this.freeSlots;
 
     }
+
+  }
 
 
 

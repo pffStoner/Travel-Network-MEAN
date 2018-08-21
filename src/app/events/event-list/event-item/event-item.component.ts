@@ -10,12 +10,14 @@ export class EventItemComponent implements OnInit {
 
   @Input() event: Event;
   @Input() index;
+
 /**
  *
  */
 constructor() {}
 
   ngOnInit() {
+    this.event.slots = this.event.slots - this.event.members.length;
   }
 
 

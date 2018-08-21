@@ -40,6 +40,7 @@ export class EventEditComponent implements OnInit {
       description: new FormControl(null, { validators: [Validators.required] }),
       startDate: new FormControl(null),
       endDate: new FormControl(null),
+      slots: new FormControl(null),
       tasks: eventTasks
     });
 
@@ -66,7 +67,8 @@ export class EventEditComponent implements OnInit {
                   map: eventData.map,
                   startDate : eventData.startDate,
                   endDate : eventData.endDate,
-                  gallery: eventData.gallery
+                  gallery: eventData.gallery,
+                  slots: eventData.slots
                 };
                 // proverqvame dali imame nqkakva zadachi
                 if (this.event['tasks']) {
@@ -87,6 +89,7 @@ export class EventEditComponent implements OnInit {
                   imgUrl: this.event.img,
                   startDate: this.event.startDate,
                   endDate: this.event.endDate,
+                  slots: this.event.slots,
                   tasks: eventTasks
                   });
 
@@ -114,7 +117,10 @@ export class EventEditComponent implements OnInit {
       null,
       null,
       this.eventForm.value['startDate'],
-      this.eventForm.value['endDate']
+      this.eventForm.value['endDate'],
+      this.eventForm.value['slots'],
+      null
+
     );
 
     if (this.editMode) {

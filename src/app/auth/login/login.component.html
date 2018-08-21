@@ -1,10 +1,21 @@
+<!-- <h1 style="text-align: center;">Travel <br> Network</h1> -->
 
-  <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+<div class="form-wraper">
+    <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
 
-      <input matInput name="email" ngModel type="email" placeholder="E-Mail" #emailInput="ngModel" required email>
-   
+        <div class="form-group">
+            <input matInput name="email" ngModel type="email" placeholder="E-Mail"
+             #emailInput="ngModel" required email>
+        </div>
 
-      <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel" required>
-   
-    <button mat-raised-button color="accent" type="submit">Login</button>
-  </form>
+        <div class="form-group">
+            <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel" required>
+
+        </div>
+        <div class="form-group">
+            <button class="btn btn-outline-primary"  type="submit">Login</button>
+
+        </div>
+    </form>
+
+</div>

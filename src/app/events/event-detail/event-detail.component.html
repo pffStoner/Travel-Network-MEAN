@@ -20,10 +20,11 @@
   
 
 <div class="wraper">
-    <nav>
+    <nav *ngIf="userAuth" >
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <a (click)="toMap()" class="nav-item nav-link" id="nav-home-tab" data-toggle="tab"  role="tab" aria-controls="nav-home" aria-selected="true">Map</a>
-          <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"  role="tab" aria-controls="nav-contact" aria-selected="false">Members</a>
+          <a (click)="toQuestionWall()" class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"  role="tab" aria-controls="nav-contact" aria-selected="false">Question Wall</a>
+
         </div>
       </nav>
   <div class="row">
@@ -33,8 +34,25 @@
 </div>
 <div class="row">
   <div class="col-md-5">
-    <img [src]="event?.img" alt="{{ event?.name }}" class="img-responsive detail-img">
-    <button class="btn btn-outline-success btn-block btn-sm btn-gallery" (click)="onGallery()">Gallery</button>
+    <img [src]="event?.img" alt="{{ event?.name }}" class="detail-img">
+    <!-- <button class="btn btn-outline-success btn-block btn-sm btn-gallery" (click)="onGallery()">Gallery</button> -->
+    <div *ngIf="userAuth" class="dropdown">
+      <button class="btn btn-outline-primary btn-block"
+      style="margin-top: 0.3rem;">Manage Event</button>
+      <div class="dropdown-content">
+          <a style="cursor: pointer;" 
+          *ngIf="event?.createdBy === userId"
+          (click)="onEditEvent()">Edit Event</a>
+          <a style="cursor: pointer;"
+          *ngIf="event?.createdBy === userId"
+           (click)="onDeleteEvent()">Delete Event</a>
+          <a *ngIf="event?.members.indexOf(userId) < 0 && freeSlots > 0 || !event?.slots"
+             style="cursor: pointer;" 
+          (click)="joinEvent()">Join Event</a>
+          <a *ngIf="event?.members.indexOf(userId) >= 0" style="cursor: pointer;" 
+            (click)="cancelEvent()">Cancel Event</a>
+        </div>
+    </div>
     <p>start data: {{ event?.startDate }}</p>
     <p>end date: {{ event?.endDate }}</p>
   </div>
@@ -45,33 +63,25 @@
  
 </div>
 
-<div class="dropdown">
-    <button class="dropbtn">Dropdown</button>
-    <div class="dropdown-content">
-        <a (click)="onAddToShoppingList()" style="cursor: pointer;">To Task List</a>
-        <a style="cursor: pointer;" (click)="onEditEvent()">Edit Task</a>
-        <a style="cursor: pointer;" (click)="onDeleteEvent()">Delete Task</a>
-        <button class="btn btn-outline-primary" (click)="joinEvent()">Join Event</button>
-        <button class="btn btn-outline-danger" (click)="cancelEvent()">Cancel Event</button>
-      </div>
-  </div>
+
 <hr>
 </div>
 
 
 
-<div class="row">
+<div *ngIf="userAuth"  class="row">
 
     <ul class="list-group tasks">
       <li class="list-group-item" *ngFor="let task of event?.tasks; let i = index" taskIndex="i">
 
         {{taskIndex}} . {{ task.name }} - {{ task.description }}
 
-        <button *ngIf="userAuth && !task.userId"
+        <button *ngIf="userAuth && !task.userId &&event?.members.indexOf(userId) >= 0  
+          && task.completed == false "
          (click)="onAddToTaskList(task)" 
          class="btn btn-outline-success pull-right">Assign</button>
-         <p *ngIf="userAuth && task.userId && task.completed == false">Taken</p>
-         <p *ngIf="userAuth && task.completed ==true && task.userId">Complete</p>
+         <p *ngIf="userAuth && task.userId ">Taken</p>
+         <p *ngIf="userAuth && task.completed ==true">Complete</p>
       </li>
     </ul>
 

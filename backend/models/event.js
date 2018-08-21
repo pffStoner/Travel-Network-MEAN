@@ -12,15 +12,14 @@ const eventSchema = mongoose.Schema({
         description: { type: String, require: false },
         userId: { type: String, require: false },
         taken: { type: Boolean, require: false },
-        completed: { type: Boolean, require: false },
+        completed: { type: Boolean, require: false, default: false },
+
     }],
+    slots: { type: Number, require: false },
     gallery: [{
         src: { type: String, require: false }
     }],
-    members: [{
-        userId: { type: String, require: false },
-        username: { type: String, require: false }
-    }],
+    members: [ { type: String, require: false } ],
     questions: [{
         userId: { type: String, require: false },
         username: { type: String, require: false },
@@ -40,7 +39,7 @@ const eventSchema = mongoose.Schema({
             lat: { type: Number, require: false },
             lng: { type: Number, require: false }
         },
-    waypoint: [
+    waypoints: [
         {
             location: {type: String, require: false}
         }

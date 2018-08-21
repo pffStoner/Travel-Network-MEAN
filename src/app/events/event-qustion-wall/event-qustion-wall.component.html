@@ -1,14 +1,46 @@
-<p>
-  event-qustion-wall works!
-</p>
-<div class="row">
+
+<div class="back" (click)="backClicked()">
+</div>
+<div class="row ">
   <div class="col-md-10">
-   <div class="row">
+   <div class="row wraper">
      <input #question class="form-control" type="text" placeholder="Ask your question here…" type="text">
      <button (click)="onAddQuestion(question)" class="btn btn-outline-primary">Ask</button>
    </div>
 
-  <div class="row" *ngFor="let q of questionWall; let i = index">
+ <div class="wraper">
+  <div class="row" *ngFor="let q of questionWall; let i = index" style="margin-top:1rem;">
+    <div class="col-md-12">
+       <mat-accordion style="width:100%;">
+           <mat-expansion-panel>
+             <mat-expansion-panel-header>
+               <mat-panel-title>
+                 <p>{{q.username}}</p>
+             <p>    {{q.question}}</p>
+               </mat-panel-title>
+             </mat-expansion-panel-header>
+                <div class="row">
+                   <ul style="width: 100%;" *ngFor="let ans of q?.answers; let i = index" class="list-group">
+                       <li style="margin-top: 0.5rem;
+                        background: rgba(238, 219, 219, 0.726);" 
+                       class="list-group-item">
+                       <span style="font-weight: 600;
+                       color: rgba(122, 188, 231, 0.863);">{{ans.username}}</span>
+                       
+                       {{ans.answer}}</li>
+                     </ul>
+                </div>
+                  <div class="row">
+                     <input  #answer class="form-control" type="text"
+                      placeholder="Type your answer here…" type="text">
+                   <button (click)="onAnswerQuestion(q._id, answer)" class="btn btn-outline-primary">Post</button>
+                  </div>
+           </mat-expansion-panel>
+         </mat-accordion>
+    </div>
+    </div>
+ </div>
+  <!-- <div class="row" *ngFor="let q of questionWall; let i = index">
       <li class="list-group-item">{{q.username}}</li>
     <h3>{{q.question}}</h3>
     <ul *ngFor="let ans of q?.answers; let i = index" class="list-group">
@@ -17,7 +49,7 @@
       </ul>
       <input  #answer class="form-control" type="text" placeholder="Answer question here…" type="text">
       <button (click)="onAnswerQuestion(q._id, answer)" class="btn btn-outline-primary">Post</button>
-  </div>
+  </div> -->
 
   </div>
 </div>

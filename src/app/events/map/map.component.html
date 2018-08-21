@@ -1,37 +1,42 @@
-    <a (click)="backClicked()"><-Back</a>
-        
-        <div class="form-group">
-            
-            <input type="text" placeholder="Search for Location" autocorrect="off"
-             autocapitalize="off" spellcheck="off" class="form-control" #search >
+<div class="back" (click)="backClicked()">
+</div>
 
-            <input type="text" placeholder="Search for Location" autocorrect="off"
-             autocapitalize="off" spellcheck="off" class="form-control" #search2 >
-             </div>
-             <button (click)="setCurrentPosition()" class="btn btn-danger btn-block" >My Location</button>
-             <button (click)="getDirection()" class="btn btn-default btn-block">Direction</button>
-             <button (click)="saveMap()" class="btn btn-success btn-block" >Save Map</button>
-             <div class="row">
-                 <div class="col-md-8">
-                    <agm-map #map 
-                    [latitude]="latitude" 
-                    [longitude]="longtitude"
-                   (mapClick)="addMarker($event)" 
-                   (mapReady)="mapReady($event)">
-                   <agm-direction
-                    [origin]="origin" 
-                    [destination]="destination"
-                    [panel]="myPanel"
-                    [waypoints]="waypoints" 
-                    [renderOptions]="renderOptions">
-                    </agm-direction>
-                   <agm-marker *ngIf="locationChosen"
-                   [latitude]="latitude" [longitude]="longtitude"  ></agm-marker>
-          </agm-map>
-                 </div>
-                 <div class="col-md-4 road-panel">
-                    <div #myPanel></div>
+
+        <mat-accordion style="width:100%;">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Map Options
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="form-group">
+                    <input type="text" placeholder="Search for Location" 
+                    autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control"
+                        #search>
+
+                    <input type="text" placeholder="Search for Location"
+                     autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control"
+                        #search2>
                 </div>
-             </div>
-      
-    
+                <button (click)="setCurrentPosition()" class="btn btn-primary" style="width: 50%">
+                    My Location</button>
+                <button (click)="getDirection()" class="btn btn-default" style="width: 50%">
+                    Direction</button>
+                <button (click)="saveMap()" class="btn btn-success" style="width: 100%">
+                    Save Map</button>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+
+        <div class="row" style="margin-top: 1rem;">
+            <div class="col-md-8">
+                <agm-map #map [latitude]="latitude" [longitude]="longtitude" (mapClick)="addMarker($event)" (mapReady)="mapReady($event)">
+                    <agm-direction *ngIf="origin && destination && waypoints" [origin]="origin" [destination]="destination" [panel]="myPanel" [waypoints]="waypoints" [renderOptions]="renderOptions">
+                    </agm-direction>
+                    <agm-marker *ngIf="locationChosen" [latitude]="latitude" [longitude]="longtitude"></agm-marker>
+                </agm-map>
+            </div>
+            <div class="col-md-4 road-panel">
+                <div #myPanel></div>
+            </div>
+        </div>
