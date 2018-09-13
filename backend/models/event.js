@@ -10,22 +10,19 @@ const eventSchema = mongoose.Schema({
     tasks: [{
         name: { type: String, require: false },
         description: { type: String, require: false },
-        userId: { type: String, require: false },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", require: true },
         taken: { type: Boolean, require: false },
         completed: { type: Boolean, require: false, default: false },
 
     }],
     slots: { type: Number, require: false },
-    gallery: [{
-        src: { type: String, require: false }
-    }],
     members: [ { type: String, require: false } ],
     questions: [{
-        userId: { type: String, require: false },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", require: true },
         username: { type: String, require: false },
         question: { type: String, require: false },
         answers: [{
-            userId: { type: String, require: false },
+            userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", require: true },
             username: { type: String, require: false },
             answer: { type: String, require: false }
         }]

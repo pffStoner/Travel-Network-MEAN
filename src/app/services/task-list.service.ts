@@ -10,10 +10,12 @@ import { map } from 'rxjs/operators';
 export class TaskListService {
   startedEditing = new Subject<number>();
   tasksChanged = new Subject<Task[]>();
-  private tasks: Task[] = [
-    new Task('Vozene', '5 uni'),
-    new Task('bileti', '3 mart' ),
-  ];
+  joinedEventsChanged = new Subject();
+ userEventsChanged = new Subject();
+
+  private tasks: Task[] = [];
+  private joinedEvents;
+  private userEvents;
   /**
    *
    */
@@ -26,6 +28,12 @@ export class TaskListService {
 
   getTasks() {
     return this.tasks.slice();
+  }
+   getJoinedEvents() {
+    return this.joinedEvents;
+  }
+  getUserEvents() {
+    return this.userEvents;
   }
   addTask(task: Task) {
     this.tasks.push(task);
@@ -74,6 +82,52 @@ export class TaskListService {
           console.log(this.tasks);
         });
       }
+      httpGetUserJoinedEvents(userId: string) {
+        this.http
+         .get<{ events: any }>('http://localhost:3000/api/events/joinedEvents/' + userId)
+         .pipe(map((eventsInfo) => {
+           return eventsInfo.events.map(events => {
+             console.log(events);
+             return {
+              _id: events._id,
+              eventName: events.eventName,
+              startDate: events.startDate,
+              img: events.img
+             };
+           }
+           );
+         })) .subscribe((data: any) => {
+             console.log(data);
+             // this.eventChanged.next(this.events.slice());
+             console.log('dat', data);
+         this.joinedEvents = data;
+            this.joinedEventsChanged.next(this.joinedEvents);
+             console.log(this.joinedEvents);
+           });
+         }
+         httpGetUserEvents(userId: string) {
+          this.http
+           .get<{ events: any }>('http://localhost:3000/api/events/userEvents/' + userId)
+           .pipe(map((eventsInfo) => {
+             return eventsInfo.events.map(events => {
+               console.log(events);
+               return {
+                _id: events._id,
+                eventName: events.eventName,
+                startDate: events.startDate,
+                img: events.img
+               };
+             }
+             );
+           })) .subscribe((data: any) => {
+               // this.eventChanged.next(this.events.slice());
+               console.log('myy', data);
+           this.userEvents = data;
+              this.userEventsChanged.next(this.userEvents);
+               console.log(this.userEvents);
+             });
+           }
+
       httpTaskToUser(eventId: string, userId: string, taskId: string, taskComplete: boolean) {
       return  this.http
         .put('http://localhost:3000/api/events/task/' + eventId, {userId, taskId, taskComplete});

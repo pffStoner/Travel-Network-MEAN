@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from '../auth/auth.service';
 import { EventService } from '../services/event.service';
 import { Map } from '../models/map.model';
+import { ChatService } from '../services/chat.service';
 
 
 
@@ -15,7 +16,12 @@ import { Map } from '../models/map.model';
 })
 export class TaskListComponent implements OnInit, OnDestroy {
   tasks: Task[];
+  events;
+  userEvents;
   private subscription: Subscription;
+  private joinedEventsSubs: Subscription;
+  private userEventsSubs: Subscription;
+
   userId: string;
   tasksObj;
 
@@ -23,55 +29,63 @@ export class TaskListComponent implements OnInit, OnDestroy {
   constructor(
     private taskService: TaskListService,
     private authService: AuthService,
-  private eventService: EventService) {
-   }
+    private eventService: EventService,
+  private chatServive: ChatService) {
+  }
 
-   ngOnInit() {
+  ngOnInit() {
     this.userId = this.authService.getUserId();
     this.taskService.httpGetUserTasks(this.userId);
-    // .subscribe((data: Task[]) => {
-    //   console.log(data);
-    //   // this.eventChanged.next(this.events.slice());
-    //   // this.tasksObj = {
-    //   //   _id: data._id,
-    //   //   name: data.name,
-    //   //   description: data.description,
-    //   //   userId: data.userId
-    //   // };
-    //   this.tasksObj = data;
-    //   console.log(this.tasksObj);
-    // });
-
-     console.log(this.userId);
-
-   // this.tasks = this.taskService.getTasks();
+    // this.tasks = this.taskService.getTasks();
     this.subscription = this.taskService.tasksChanged
       .subscribe(
         (tasks: Task[]) => {
           this.tasks = tasks;
         }
       );
-      this.tasks = this.taskService.getTasks();
+    this.tasks = this.taskService.getTasks();
 
-      console.log(this.tasks);
+    this.taskService.httpGetUserJoinedEvents(this.userId);
+    this.joinedEventsSubs = this.taskService.joinedEventsChanged
+      .subscribe(
+        (events: any) => {
+          this.events = events;
+          console.log('joined', this.events);
+        }
+      );
+    this.events = this.taskService.getJoinedEvents();
+
+    this.taskService.httpGetUserEvents(this.userId);
+   this.taskService.userEventsChanged
+      .subscribe(
+      (events: any) => {
+        this.userEvents = events;
+        console.log('my', this.userEvents);
+      }
+    );
+  this.userEvents = this.taskService.getUserEvents();
+
   }
 
   onRemoveFromTaskList(task: Task, index) {
-    task.userId = null;
-    this.eventService.httpTaskToUser(null, null, task._id, false);
+    // task.userId = null;
+   // this.eventService.httpTaskToUser(null, null, task._id, false);
+    this.chatServive.changeStatus(null, null, task._id, false);
+
     this.taskService.deleteTasks(index);
 
   }
   onTaskComplete(task: Task, index) {
-    this.eventService.httpTaskToUser(null,  null, task._id, true);
+   // this.eventService.httpTaskToUser(null, null, task._id, true);
     this.taskService.deleteTasks(index);
-
+    this.chatServive.changeStatus(null, null, task._id, true);
   }
   onEditItem(index: number) {
     this.taskService.startedEditing.next(index);
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
+    // this.joinedEventsSubs.unsubscribe();
   }
 
 }

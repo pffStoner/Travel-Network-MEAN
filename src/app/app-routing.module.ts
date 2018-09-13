@@ -12,7 +12,6 @@ import { AuthGuard } from './auth/auth.guard';
 import { MapComponent } from './events/map/map.component';
 import { ChatComponent } from './chat/chat.component';
 import { EventQustionWallComponent } from './events/event-qustion-wall/event-qustion-wall.component';
-import { ChattComponent } from './chatt/chatt.component';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/events', pathMatch: 'full'},
@@ -30,8 +29,7 @@ const appRoutes: Routes = [
     ] },
     { path: 'tasks', component: TaskListComponent},
     { path: 'login', component: LoginComponent},
-    { path: 'register', component: RegisterComponent},
-    { path: 'o', component: ChattComponent},
+    { path: 'register', component: RegisterComponent}
 
 ];
 

@@ -103,10 +103,42 @@ this.tsService.addTask(task);
   // }
 
 
-  httpGetEvents(sortOption, beforeDate) {
-    const params = new HttpParams().set('sort', sortOption).set('beforeDate', beforeDate);
+  httpGetEvents(sortOption, beforeDate, afterDate) {
+    const params = new HttpParams().set('sort', sortOption).set('beforeDate', beforeDate)
+    .set('afterDate', afterDate);
+
     this.http
       .get<{ msg: string, events: any }>('  http://localhost:3000/api/eventsSort',
+      {  params })
+        .pipe(map((evetData) => {
+          return evetData.events.map(event => {
+            console.log(event);
+            return {
+              id: event._id,
+              name: event.name,
+              description: event.description,
+              img: event.img,
+              tasks: event.tasks,
+              gallery: event.gallery,
+              createdBy: event.createdBy,
+              map: event.map,
+              members: event.members,
+              slots: event.slots
+            };
+          }
+          );
+        }))
+      .subscribe((data) => {
+        this.events = data;
+        console.log(data);
+        this.eventChanged.next(this.events.slice());
+      });
+  }
+  httpGetStartEvents(sortOption) {
+    const params = new HttpParams().set('sort', sortOption);
+
+    this.http
+      .get<{ msg: string, events: any }>('  http://localhost:3000/api/events',
       {  params })
         .pipe(map((evetData) => {
           return evetData.events.map(event => {
@@ -180,30 +212,15 @@ this.tsService.addTask(task);
       }
 
       httpAskQuestion(eventId: string, username: string,  question: string,  userId: string) {
-        this.http
-        .put<{question: any}>('http://localhost:3000/api/events/questions/' + eventId, {question, username, userId})
-        .subscribe(data => {
-          this.qaWall.push(data.question);
-          this.qaWallChanged.next(this.qaWall);
-           console.log(data);
-          });
+      return  this.http
+        .put<{question: any}>('http://localhost:3000/api/events/questions/' + eventId,
+        {question, username, userId});
+
       }
       httpAnswerQuestion(eventId: string, username: string, questionId: string,  answer: string, userId: string) {
-        this.http
-        .put<{answer: any}>('http://localhost:3000/api/events/answers/' + eventId, {answer, username, questionId, userId})
-        .subscribe(data => {
-          // this.qaWall.push(data.answer);
-          // if (this.qaWall.answers) {
-          // }
-          this.qaWall.forEach(element => {
-              if (element._id === questionId) {
-                element.answers.push(data.answer);
-                console.log(element.answers);
-            }
-          });
-          this.qaWallChanged.next(this.qaWall);
-          console.log(data);
-        });
+       return this.http
+        .put<{answer: any}>('http://localhost:3000/api/events/answers/' + eventId,
+        {answer, username, questionId, userId});
       }
       httpGetQustionWall(eventId: string) {
         this.http

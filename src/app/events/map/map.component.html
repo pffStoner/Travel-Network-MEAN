@@ -10,11 +10,11 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="form-group">
-                    <input type="text" placeholder="Search for Location" 
+                    <input type="text" placeholder="Start" 
                     autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control"
                         #search>
 
-                    <input type="text" placeholder="Search for Location"
+                    <input type="text" placeholder="End"
                      autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control"
                         #search2>
                 </div>
@@ -22,8 +22,10 @@
                     My Location</button>
                 <button (click)="getDirection()" class="btn btn-default" style="width: 50%">
                     Direction</button>
-                <button (click)="saveMap()" class="btn btn-success" style="width: 100%">
+                <button (click)="saveMap()" class="btn btn-success" style="width: 50%">
                     Save Map</button>
+                    <button (click)="clearMap()" class="btn btn-danger" style="width: 50%">
+                            Clear Map</button>
             </mat-expansion-panel>
         </mat-accordion>
 

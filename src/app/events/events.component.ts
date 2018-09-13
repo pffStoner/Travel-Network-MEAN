@@ -12,10 +12,10 @@ import { Location } from '@angular/common';
 export class EventsComponent implements OnInit {
   // selectedEvent: Event;
   id;
-  navLinks = [
-   {path: this.id , label: 'Details'},
-   {path: this.id + '/map', label: 'Map'},
-  ];
+  // navLinks = [
+  //  {path: this.id , label: 'Details'},
+  //  {path: this.id + '/map', label: 'Map'},
+  // ];
 
   constructor(private router: Router,
     private location: Location,
@@ -34,34 +34,7 @@ export class EventsComponent implements OnInit {
 
         }
         });
-        console.log('id', this.id);
-
-    // this.eventService.editId.subscribe(id => {
-    //   this.id = id;
-    //   console.log('ID', this.id);
-  //   this.route.firstChild.paramMap.subscribe(
-  //     ( params: ParamMap ): void => {
-
-  //         this.id = params.get('id');
-  //         console.log('ID', this.id);
-
-  //     }
-  // );
-
-  // this.route.firstChild.params.subscribe(params => {
-  //   console.log('ID', this.id);
-  //    this.id = params['id'];
-  // });
-  // this.id = this.route.children[0].children[1].params['id'];
-   // this.id = this.eventService.eventId;
-  }
-//   toEvent() {
-//     this.location.back(); // <-- go back to previous location on cancel
-// //  }
-// toMap() {
-//   this.eventService.editId.next(this.id);
-//   this.router.navigate(['map'], { relativeTo: this.route });
-// }
+      }
 
 toMap() {
   this.router.navigate(['map'], { relativeTo: this.route });

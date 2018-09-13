@@ -5,7 +5,8 @@
   <div class="col-md-10">
    <div class="row wraper">
      <input #question class="form-control" type="text" placeholder="Ask your question here…" type="text">
-     <button (click)="onAddQuestion(question)" class="btn btn-outline-primary">Ask</button>
+     <button (click)="onAddQuestion(question)" class="btn btn-outline-success btn-block">
+       Ask Question</button>
    </div>
 
  <div class="wraper">
@@ -15,7 +16,8 @@
            <mat-expansion-panel>
              <mat-expansion-panel-header>
                <mat-panel-title>
-                 <p>{{q.username}}</p>
+                 <span style="font-weight: 600;
+                 color: rgba(17, 80, 122, 0.863);">{{q.username}}</span>
              <p>    {{q.question}}</p>
                </mat-panel-title>
              </mat-expansion-panel-header>
@@ -25,7 +27,7 @@
                         background: rgba(238, 219, 219, 0.726);" 
                        class="list-group-item">
                        <span style="font-weight: 600;
-                       color: rgba(122, 188, 231, 0.863);">{{ans.username}}</span>
+                       color: rgba(17, 80, 122, 0.863);">{{ans.username}}</span>
                        
                        {{ans.answer}}</li>
                      </ul>
@@ -33,7 +35,9 @@
                   <div class="row">
                      <input  #answer class="form-control" type="text"
                       placeholder="Type your answer here…" type="text">
-                   <button (click)="onAnswerQuestion(q._id, answer)" class="btn btn-outline-primary">Post</button>
+                   <button (click)="onAnswerQuestion(q._id, answer)" 
+                   class="btn btn-outline-primary btn-block">
+                   Post</button>
                   </div>
            </mat-expansion-panel>
          </mat-accordion>

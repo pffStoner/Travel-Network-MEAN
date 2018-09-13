@@ -46,7 +46,7 @@
           <a style="cursor: pointer;"
           *ngIf="event?.createdBy === userId"
            (click)="onDeleteEvent()">Delete Event</a>
-          <a *ngIf="event?.members.indexOf(userId) < 0 && freeSlots > 0 || !event?.slots"
+          <a *ngIf="event?.members.indexOf(userId) < 0 && event?.slots > 0 || event?.slots === undefined"
              style="cursor: pointer;" 
           (click)="joinEvent()">Join Event</a>
           <a *ngIf="event?.members.indexOf(userId) >= 0" style="cursor: pointer;" 
@@ -58,7 +58,6 @@
   </div>
   <div class="col-md-7">
     {{ event?.description }} 
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime earum labore dolor perferendis dignissimos? Nam nulla tempora quas sequi consequatur! Facere, laudantium laborum excepturi perferendis odit eveniet? Placeat, obcaecati odio ad sed ut neque quia ducimus harum hic corporis odit vel fugit. Dolorum at nam, harum, odio veritatis similique quasi ea debitis voluptatum placeat neque dolores officiis impedit dolore quod voluptatibus enim suscipit magnam tenetur a temporibus numquam culpa! Molestias.
   </div>
  
 </div>
@@ -74,14 +73,18 @@
     <ul class="list-group tasks">
       <li class="list-group-item" *ngFor="let task of event?.tasks; let i = index" taskIndex="i">
 
-        {{taskIndex}} . {{ task.name }} - {{ task.description }}
+        <div class="col-md-10">
+            {{taskIndex}} . {{ task.name }} - {{ task.description }}
+        </div>
 
-        <button *ngIf="userAuth && !task.userId &&event?.members.indexOf(userId) >= 0  
-          && task.completed == false "
-         (click)="onAddToTaskList(task)" 
-         class="btn btn-outline-success pull-right">Assign</button>
-         <p *ngIf="userAuth && task.userId ">Taken</p>
-         <p *ngIf="userAuth && task.completed ==true">Complete</p>
+        <div class="col-md-2" style="padding-right: 0px;">
+            <button *ngIf="userAuth && !task.userId &&event?.members.indexOf(userId) >= 0  
+                && task.completed == false "
+               (click)="onAddToTaskList(task)" 
+               class="btn btn-outline-success pull-right">Take</button>
+               <p *ngIf="userAuth && task.userId ">Taken</p>
+               <p *ngIf="userAuth && task.completed ==true">Complete</p>
+        </div>
       </li>
     </ul>
 

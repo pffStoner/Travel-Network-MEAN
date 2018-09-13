@@ -14,13 +14,14 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class EventListComponent implements OnInit, OnDestroy {
   events: Event[];
-  subscribtion = new Subscription;
+  еventsListenerSubs = new Subscription;
   userAuth = false;
   authListenerSubs: Subscription;
   sortOption: string;
   sortOptions: string[] = ['name', 'startDate'];
   beforeDate;
-
+  afterDate;
+data = new Date();
 
   constructor(private eventService: EventService,
     private router: Router,
@@ -30,9 +31,9 @@ export class EventListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.eventService.httpGetEvents(this.sortOption, this.beforeDate);
+    this.eventService.httpGetStartEvents('startDate');
     // ako se promeni shte poluchim tuk nov array ot events
-    this.subscribtion = this.eventService.eventChanged.subscribe(
+    this.еventsListenerSubs = this.eventService.eventChanged.subscribe(
       (event: Event[]) => {
         // prisvoqvame poluchenite eventi na tezi, koito izpolzvame za display
         this.events = event;
@@ -56,16 +57,14 @@ export class EventListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.authListenerSubs.unsubscribe();
-    this.subscribtion.unsubscribe();
+    this.еventsListenerSubs.unsubscribe();
   }
 
   onSortEvent(option) {
-    this.eventService.httpGetEvents(option.value, this.beforeDate);
+    this.eventService.httpGetEvents(option.value, this.beforeDate, this.afterDate);
   }
-  onSortByDate(input: HTMLInputElement) {
+  onSortByDate(input: HTMLInputElement, input2: HTMLInputElement) {
     console.log(input.value);
-
-
-    this.eventService.httpGetEvents(input.value, this.beforeDate);
+    this.eventService.httpGetEvents('name', this.beforeDate, this.afterDate);
   }
 }

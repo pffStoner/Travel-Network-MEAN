@@ -59,9 +59,7 @@ getMails() {
         });
     }
 
-    test(params) {
-        console.log('params' + params);
-    }
+
 
     sendMessage(message) {
         // this.socket.emit('add-message', message);
@@ -138,40 +136,117 @@ getMails() {
         });
         return observable;
     }
+    onAddQuestion() {
 
-    httpSendMail(recieveUserId: string, sendUsername: string, sendUserId: string,
-    title, date, content) {
-        this.http
-        .put('http://localhost:3000/api/user/sendEmail/', {recieveUserId,
-         sendUsername,
-         sendUserId,
-        title,
-    date,
-content})
-        .subscribe(res => console.log(res));
-      }
+        const observable = new Observable((observer: Observer<{}>) => {
+            // this.socket = io(this.url);
 
-      httpGetEmails() {
-        this.http
-          .get<{ mails: any }>(' http://localhost:3000/api/users')
-            // .pipe(map((maildata) => {
-            //   return maildata.mails.map(mail => {
-            //     console.log(mail);
-            //     return {
-            //       id: mail._id,
-            //       title: mail.title,
-            //       date: mail.date,
-            //       content: mail.content,
-            //       author: mail.username
-            //     };
-            //   }
-            //   );
-            // }))
-          .subscribe((data) => {
-            this.mails = data;
-            console.log('mails', this.mails);
-            this.mailsChanged.next(this.mails);
-          });
-      }
+            this.socket.on('question', (data) => {
+                observer.next(data);
+            });
+            return () => {
+                this.socket.disconect();
+            };
+
+        });
+        return observable;
+    }
+     addQuestion(eventId: string) {
+        // this.socket.emit('add-message', message);
+        this.socket.emit('add-question', eventId);
+    }
+
+    onAddAnswer() {
+
+        const observable = new Observable((observer: Observer<{}>) => {
+            // this.socket = io(this.url);
+
+            this.socket.on('answer', (data) => {
+                observer.next(data);
+            });
+            return () => {
+                this.socket.disconect();
+            };
+
+        });
+        return observable;
+    }
+    addAnswer(eventId: string, questionId, answer) {
+        // this.socket.emit('add-message', message);
+        const data = {
+            eventId: eventId,
+            questionId: questionId,
+            answer: answer
+        };
+        this.socket.emit('add_answer', data);
+    }
+    onChangeTaskStatus() {
+        const observable = new Observable((observer: Observer<{}>) => {
+            // this.socket = io(this.url);
+
+            this.socket.on('status', (data) => {
+                observer.next(data);
+            });
+            return () => {
+                this.socket.disconect();
+            };
+
+        });
+        return observable;
+    }
+
+    changeStatus(eventId: string, userId: string, taskId: string, taskComplete: boolean ) {
+        // this.socket.emit('add-message', message);
+        const data = {
+            eventId: eventId,
+            userId: userId,
+            taskId: taskId,
+            taskComplete: taskComplete
+        };
+        this.socket.emit('change_status', data);
+    }
+
+
+
+
+
+
+
+
+
+//     httpSendMail(recieveUserId: string, sendUsername: string, sendUserId: string,
+//     title, date, content) {
+//         this.http
+//         .put('http://localhost:3000/api/user/sendEmail/', {recieveUserId,
+//          sendUsername,
+//          sendUserId,
+//         title,
+//     date,
+// content})
+//         .subscribe(res => console.log(res));
+//       }
+
+//       httpGetEmails() {
+//         this.http
+//           .get<{ mails: any }>(' http://localhost:3000/api/users')
+//             // .pipe(map((maildata) => {
+//             //   return maildata.mails.map(mail => {
+//             //     console.log(mail);
+//             //     return {
+//             //       id: mail._id,
+//             //       title: mail.title,
+//             //       date: mail.date,
+//             //       content: mail.content,
+//             //       author: mail.username
+//             //     };
+//             //   }
+//             //   );
+//             // }))
+//           .subscribe((data) => {
+//             this.mails = data;
+//             console.log('mails', this.mails);
+//             this.mailsChanged.next(this.mails);
+//           });
+//       }
 
 }

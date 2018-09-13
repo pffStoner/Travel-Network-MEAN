@@ -14,6 +14,7 @@ import { AgmCoreModule } from '@agm/core';
 
 import { } from '@types/googlemaps';
 import { Task } from '../../models/task.model';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-event-detail',
@@ -26,6 +27,7 @@ export class EventDetailComponent implements OnInit {
   realId: string;
   userAuth = false;
   authListenerSubs: Subscription;
+  private changeStatus: Subscription;
   userId: string;
   taskIndex;
   username: string;
@@ -36,7 +38,8 @@ export class EventDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private tru: GalleryService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+  private chatServive: ChatService) { }
 
   ngOnInit() {
 
@@ -64,6 +67,7 @@ export class EventDetailComponent implements OnInit {
               };
               // console.log(this.event.members[1].userId);
               this.freeSlots = this.event.slots - this.event.members.length;
+              console.log(this.event);
 
             });
           //  this.realId = this.event.id;
@@ -96,6 +100,14 @@ export class EventDetailComponent implements OnInit {
       console.log(username);
     });
     this.username = this.authService.getUsername();
+    this.changeStatus = this.chatServive.onChangeTaskStatus()
+    .subscribe((data: any) => {
+    this.event.tasks.forEach(element => {
+      if (element._id === data.taskId) {
+        element.completed = data.taskComplete;
+      }
+    });
+    });
   }
 
   ifUserJoin() {
@@ -160,7 +172,7 @@ export class EventDetailComponent implements OnInit {
   joinEvent() {
     this.eventService.httpJoinEvent(this.event.id, this.userId, this.username);
     this.event.members.push(this.userId);
-    this.freeSlots -= this.freeSlots;
+   // this.freeSlots -= this.freeSlots;
     console.log(this.event.slots);
   }
 

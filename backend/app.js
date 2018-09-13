@@ -8,7 +8,8 @@ const userRoutes = require('./routes/user');
 
 // aA188406.
 const app = express();
-mongoose.connect('mongodb+srv://mitko:aA188406.@cluster0-6rsnv.mongodb.net/network', { useNewUrlParser: true })
+mongoose.connect('mongodb+srv://mitko:aA188406.@cluster0-6rsnv.mongodb.net/network',
+ { useNewUrlParser: true })
     .then(() => {
         console.log('conn to database');
 

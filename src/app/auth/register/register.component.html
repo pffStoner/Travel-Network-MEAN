@@ -2,18 +2,19 @@
   <form (submit)="onRegister(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
 
     <div class="form-group">
-      <input matInput name="username" ngModel type="text" placeholder="Username" #usernameInput="ngModel" required>
+      <input  name="username" ngModel type="text" placeholder="Username" #usernameInput="ngModel" required>
     </div>
     <div class="form-group">
 
-      <input matInput name="email" ngModel type="email" placeholder="E-Mail" #emailInput="ngModel" required email>
+      <input  name="email" ngModel type="email" 
+      placeholder="E-Mail" #emailInput="ngModel" required email>
     </div>
     <div class="form-group">
 
       <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel" required>
     </div>
-    <div class="form-group">
-      <button class="btn btn-outline-primary" type="submit">Signup</button>
+    <div>
+      <button class="btn btn-outline-primary" type="submit">Register</button>
     </div>
   </form>
 

@@ -3,40 +3,48 @@
   }
   .btn-outline-primary{
     color: rgb(133, 247, 3);
+    width: 100%;
     border-color: rgb(133, 247, 3);
   }
   form{
       height: 50%;
       width: 30%;
       margin: auto;
-      padding-top: 8%;
+      padding-top: 3%;
       position: relative;
       border-radius: 20px;
   }
   input{
+      width: 100%;
       height: calc(2.25rem + 2px);
       font-size: 1rem;
       line-height: 1.5;
-      color: #495057;
-      background-color: #fff;
+      background-color: transparent;
       background-clip: padding-box;
-      border: 1px solid #ced4da;
+      border: 0px;
+      color: white;
       border-radius: .25rem;
       transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   }
+  input::placeholder { color: white; }
   .form-group{
   text-align: center;
   width: 100%;
+  border: 2px solid black;
+  color: white;
   }
   
   .form-wraper{
+      margin: 6em 26em;
   display: flex;
-  height: 90vh;
-  background: url('../../shared/img/5a2b24baef0b92.8678245015127768909791.png');
+  height: 60vh;
+  border: 1px solid black;  
+  /* background: url('../../shared/img/5a2b24baef0b92.8678245015127768909791.png'); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  /* background: linear-gradient(30deg, red, rgba(207, 4, 99, 0.178)) */
+  background: linear-gradient(30deg, rgba(219, 79, 79, 0.61), rgba(0, 0, 0, 0.2), rgba(207, 4, 99, 0.2));
+  border-radius: 13px;
   }
   
   @media screen and (max-width: 700px) {

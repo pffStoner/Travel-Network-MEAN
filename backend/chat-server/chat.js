@@ -2,6 +2,9 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
+const eventsController = require('../controllers/events')
+const Event = require('../models/event');
+var ObjectId = require('mongodb').ObjectID;
 
 module.exports = {
     startSocketServer: function (server) {
@@ -33,9 +36,9 @@ module.exports = {
             socket.on('join', (params, callback) => {
                 //TODO: add validations for names
                 room = params.room;
-                if( rooms.indexOf(room) < 0){
+                if (rooms.indexOf(room) < 0) {
                     rooms.push(room);
-                    
+
                 }
 
                 io.emit('rooms', rooms);
@@ -48,29 +51,29 @@ module.exports = {
                 socket.join(params.room);
                 //update list
                 console.log(rooms);
-                
+
                 io.to(params.room).emit('updatedList', users.getUsersList(params.room));
                 //to all when join chat app
-               socket.emit('newMessage', generateMsg('Welcome'));
+                socket.emit('newMessage', generateMsg('Welcome'));
                 //for new user join
                 socket.broadcast.to(params.room)
-                    .emit('newMessage', generateMsg( params.name + ' joined'));
+                    .emit('newMessage', generateMsg(params.name + ' joined'));
                 callback();
             });
 
             //:LEAVE:Client Supplied Room
-socket.on('leave',function(room){  
-    try{
-      console.log('[socket]','leave room :', room);
-      socket.leave(room);
-      socket.to(room).emit('user left', socket.id);
-      users.removeUser(socket.id);
-      io.to(room).emit('updatedList', users.getUsersList(room));
-    }catch(e){
-      console.log('[error]','leave room :', e);
-      socket.emit('error','couldnt perform requested action');
-    }
-  })
+            socket.on('leave', function (room) {
+                try {
+                    console.log('[socket]', 'leave room :', room);
+                    socket.leave(room);
+                    socket.to(room).emit('user left', socket.id);
+                    users.removeUser(socket.id);
+                    io.to(room).emit('updatedList', users.getUsersList(room));
+                } catch (e) {
+                    console.log('[error]', 'leave room :', e);
+                    socket.emit('error', 'couldnt perform requested action');
+                }
+            })
 
 
 
@@ -86,8 +89,8 @@ socket.on('leave',function(room){
                     io.to(user.room).emit('newMessage', generateMsg(user.name, msg.text));
                 }
 
-                    console.log(msg);
-                    
+                console.log(msg);
+
                 // callback();
 
             });
@@ -128,8 +131,67 @@ socket.on('leave',function(room){
             //     }
             // });
 
+            socket.on('add-question', (id) => {
+                eventId = id;
+                Event.aggregate([
 
-            
+                    { $unwind: "$questions" },
+                    { $match: { _id: ObjectId(eventId) } },
+                    {
+                        $project: {
+                            _id: "$questions._id",
+                            eventId: "$_id",
+                            username: "$questions.username",
+                            question: "$questions.question",
+                            userId: '$questions.userId',
+                            answers: '$questions.answers'
+                        }
+                    }
+                ])
+                    .then(docs => {
+
+                        io.emit('question', docs);
+                        console.log(docs);
+
+
+                    }).catch(error => {
+                        // todo
+                    });
+            });
+
+            socket.on('add_answer', (data) => {
+                io.emit('answer', data)
+                console.log(data);
+
+            });
+
+            // change task status
+            socket.on('change_status', (data) => {
+                const eventId = data.id;
+                const userId = data.userId;
+                const taskId = data.taskId;
+                const taskComplete = data.taskComplete;
+                //const id = req.params.id;
+                console.log(data);
+                Event.update({ 'tasks._id': taskId }, {
+                    '$set': {
+                        'tasks.$.userId': userId,
+                        'tasks.$.completed': taskComplete
+                    }
+                })
+                    .then(task => {
+                        io.emit('status', data);
+                        console.log(task);
+
+                    })
+                    .catch(error => {
+                        // todo
+                    });
+            });
+            // end task_status
+
+
+
         });
     }
 };

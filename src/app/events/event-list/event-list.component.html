@@ -27,14 +27,20 @@
                   <input
                   #input
                   type="date"
-                  (change)="onSortByDate(input)"
                   [(ngModel)]="beforeDate"
                   class="form-control">
+              
+                <label for="startDate">After Date </label>
+                  <input
+                  #input2
+                  type="date"
+                  [(ngModel)]="afterDate"
+                  class="form-control">
+
                 </div>
             <section class="example-section">
-              <label class="example-margin">Sort By:</label>
+              <label class="example-margin">Sort By: </label>
              
-
 
                   <mat-radio-group class="example-radio-group" [(ngModel)]="sortOption">
                     <mat-radio-button class="example-radio-button"
@@ -43,9 +49,8 @@
                       {{option}}
                     </mat-radio-button>
                   </mat-radio-group>
-                  <p>{{sortOption}}</p>
-
             </section>
+            <button class="btn btn-primary" (click)="onSortByDate(input, input2)">Search</button>
           </mat-expansion-panel>
         </mat-accordion>
       </div>

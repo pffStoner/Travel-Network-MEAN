@@ -27,11 +27,11 @@
           <div class="row" style="margin-bottom: 2rem;">
             <div class="col-md-12">
                 <div id="tab">
-                    <mat-tab-group style="color: white;">
+                    <mat-tab-group>
                         <mat-tab label="Join Room"> 
                             <div class="row" style="height: 15vh" >
                             <a (click)="onJoinGlobalRoom()" style="cursor: pointer;" >Global room</a>
-                            <form class="form-inline" style="color:white;">
+                            <form class="form-inline">
                               
                              <input #input class="form-control mb-2 mr-sm-2" type="text"
                               name="room" placeholder="room name" autofocus>
@@ -65,21 +65,23 @@
              </div>
              <div class="col-md-8" style="overflow-y: auto; height: 60vh;">
                <div class="jumbotron" *ngFor="let msg of messages">
-                 {{msg.text}} {{msg.from}}
+                  <span class="username">{{msg.from}}</span> {{msg.text}} 
+               </div>
+               <div #msgInput class="msgInput">
+      
+                  <input style="width: 100%;" class="from-control" [(ngModel)]="message" type="text" />
+                  <button class="btn btn-outline-success btn-block" (click)="sendMessage()">send</button>
+             
                </div>
              </div>
+            
+            
            </div>
              
          
             </div>
           </div>
-          <div #msgInput class="row msgInput">
-      
-           <input style="width: 33%;" class="from-control" [(ngModel)]="message" type="text" />
-           <button class="btn btn-outline-success" (click)="sendMessage()">send</button>
-      
-        </div>
-       
+         
       </div>
       
 </div>

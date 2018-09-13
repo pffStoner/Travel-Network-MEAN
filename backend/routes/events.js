@@ -9,12 +9,15 @@ router.post("/api/events", checkAuth,  eventsController.addEvent);
 
 router.put("/api/events/:id", checkAuth, eventsController.updateEvent);
 
+router.get('/api/events',eventsController.fetchStartEvents);
 
 router.get('/api/eventsSort',eventsController.fetchEvents);
 
 
 
+
 router.delete('/api/events/:id', checkAuth, eventsController.deleteEvent);
+
 
 router.get("/api/events/:id",eventsController.fetchEvent);
 // add map
@@ -61,6 +64,8 @@ router.put("/api/events/task/:id", checkAuth, eventsController.addTask);
 //     // }).select('tasks');
 // });
 router.get("/api/events/tasks/:id", eventsController.getTasks);
+router.get("/api/events/joinedEvents/:id", eventsController.joinedEvents);
+
 
 
 // router.put("/api/events/joinEvent/:id", checkAuth, (req, res, next) => {
@@ -93,7 +98,7 @@ router.put("/api/events/answers/:id", checkAuth, eventsController.addAnswers);
 
 
 router.get('/api/questions/:id', eventsController.getQuestionWall);
-
+router.get('/api/events/userEvents/:id', eventsController.getUserEvents);
 
 router.get('/api/questions', (req, res, next) => {
     username='mitko';

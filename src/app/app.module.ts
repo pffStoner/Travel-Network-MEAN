@@ -36,14 +36,8 @@ import {MatExpansionModule,
   MatCheckboxModule,
   MatRadioModule,
 MatError} from '@angular/material';
-import { ChattComponent } from './chatt/chatt.component';
 import { ErrorInterceptor } from './error.inceptor';
 import { ErrorComponent } from './error/error.component';
-
-
-
-
-
 
 
 @NgModule({
@@ -65,7 +59,6 @@ import { ErrorComponent } from './error/error.component';
     MapComponent,
     ChatComponent,
     EventQustionWallComponent,
-    ChattComponent,
     ErrorComponent
 
   ],

@@ -221,8 +221,8 @@ export class MapComponent implements OnInit {
     this.eventService.httpAddMap(this.eventId, this.map);
   }
   getDirection() {
-    this.origin = { lat: this.markers[0].coords.lat, lng: this.markers[0].coords.lng };
-    this.destination = { lat: this.markers[1].coords.lat, lng: this.markers[1].coords.lng };
+    this.origin = { lat: this.markers[1].coords.lat, lng: this.markers[1].coords.lng };
+    this.destination = { lat: this.markers[0].coords.lat, lng: this.markers[0].coords.lng };
     console.log(this.origin, this.destination, 'wayponit' + this.waypoints, this.markers);
     // const map = new Map(this.origin,this.destination, this.waypoints, this.markers);
 

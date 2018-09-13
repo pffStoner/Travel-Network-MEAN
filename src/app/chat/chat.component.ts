@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class ChatComponent implements OnInit, OnDestroy {
 
-  messages = [new Message('this.message', 'mitko111')];
+  messages = [];
   connection;
   message;
   username;
@@ -71,6 +71,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.rooms = rooms;
         console.log('rooms', this.rooms);
       });
+
   }
 
 
@@ -129,13 +130,15 @@ if (input.value === undefined) {
     msgInput.style.visibility = 'hidden';
 
  }
- onSendMail() {
-   this.chatService.httpSendMail('5b5a13758bf57790c4b44946', 'mitko', '5b658af220d7f9b48cde0187', 'proba', 'dnes', 'daliii');
- }
+//  onSendMail() {
+//    this.chatService.httpSendMail('5b5a13758bf57790c4b44946', 'mitko', '5b658af220d7f9b48cde0187', 'proba', 'dnes', 'daliii');
+//  }
  ngOnDestroy() {
-  this.connection.unsubscire();
+ // this.connection.unsubscire();
   this.userListSubscribe.unsubscribe();
   this.chatService.leaveRoom(this.username, 'global');
+  this.chatService.leaveRoom(this.username, this.lastRoom);
+
 }
 }
 

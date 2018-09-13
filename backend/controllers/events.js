@@ -64,18 +64,48 @@ exports.updateEvent = (req, res, next) => {
     console.log("пост update" + event);
     console.log("пост update" + req.body.slots);
 };
-
-exports.fetchEvents =  (req, res, next) => {
+exports.fetchStartEvents =  (req, res, next) => {
     console.log(req.query);
-    afterDate = req.query.beforeDate;
     sortOption = req.query.sort;
+  
     var sort = {};
-    sort[sortOption] = 1;
+    sort[sortOption] = -1;
     
     Event.find({
         startDate: {
-            // $gte: ("2018-08-01")
-            $lt: (afterDate)
+            $gte: ('2018-01-01')
+        }
+    })
+   .sort(sort)
+    .then((document) => {
+       // console.log('get ' + document);
+        res.status(200).json({
+            message: "Event fetched successfully!",
+            events: document
+        });
+    }) .catch(error => {
+        res.status(500).json({
+            message: "Fetching events failed!"
+        });
+    });
+};
+exports.fetchEvents =  (req, res, next) => {
+    console.log(req.query);
+    afterDate = req.query.afterDate;
+    beforeDate = req.query.beforeDate;
+    sortOption = req.query.sort;
+  
+    var sort = {};
+    if(sortOption === 'name'){
+        sort[sortOption] = 1;
+    }else{
+        sort[sortOption] = -1;
+    }
+    
+    Event.find({
+        startDate: {
+            $gte: (afterDate),
+            $lt: (beforeDate)
         }
     })
    .sort(sort)
@@ -196,7 +226,7 @@ exports.getTasks = (req, res, next) => {
     Event.aggregate([
      
         { $unwind: "$tasks" },
-      {   $match : {'tasks.userId': userId }},
+      {   $match : {'tasks.userId': ObjectId(userId) }},
         {
             $project: {
                 _id: "$tasks._id",
@@ -220,6 +250,34 @@ exports.getTasks = (req, res, next) => {
         });
 };
 
+exports.joinedEvents = (req, res, next) => {
+    userId = req.params.id;
+    Event.aggregate([
+        {   $match : {'members': userId }},
+          {
+              $project: {
+                  _id: "$_id",
+                  eventName: '$name',
+                  startDate: '$startDate',
+                  img: '$img'
+              }
+          }
+      ])
+        .then(docs => {
+            res.status(200).json({
+                //  count: docs.length,
+                events: docs
+            });
+        }) .catch(error => {
+            res.status(500).json({
+                message: "Fetching  tasks failed!"
+            });
+        });
+};
+
+
+
+
 exports.joinEvent = (req, res, next) => {
     // const userId = req.body.userId;
     // const username = req.body.username;
@@ -230,7 +288,8 @@ exports.joinEvent = (req, res, next) => {
    }
    Event.update(
     { _id: eventId },
-    { $push: { members: req.body.userId } }
+    { $push: { members: req.body.userId },
+    $inc:{slots: -1} }
  ) .then(docs => {
      console.log(docs);
      
@@ -255,7 +314,8 @@ exports.cancelEvent = (req, res, next) => {
    }
    Event.update(
     { _id: eventId },
-    { $pull: { members:req.body.userId } }
+    { $pull: { members:req.body.userId },
+    $inc:{slots: 1} }
  ) .then(docs => {
      console.log(docs);
      
@@ -382,3 +442,28 @@ exports.getQuestionWall = (req, res, next) => {
     //     });
     // });
 }; 
+
+exports.getUserEvents  = (req, res, next) => {
+    userId = req.params.id;
+    Event.aggregate([
+        {   $match : {'createdBy': ObjectId(userId) }},
+          {
+              $project: {
+                  _id: "$_id",
+                  eventName: '$name',
+                  startDate: '$startDate',
+                  img: '$img'
+              }
+          }
+      ])
+        .then(docs => {
+            res.status(200).json({
+                //  count: docs.length,
+                events: docs
+            });
+        }) .catch(error => {
+            res.status(500).json({
+                message: "Fetching  tasks failed!"
+            });
+        });
+};

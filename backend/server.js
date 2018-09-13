@@ -1,7 +1,7 @@
-const app = require("./backend/app");
+const app = require("./app");
 const debug = require("debug")("node-angular");
 const http = require("http");
-const socketIO = require('./backend/chat-server/chat');
+const socketIO = require('./chat-server/chat');
 
 const normalizePort = val => {
   var port = parseInt(val, 10);

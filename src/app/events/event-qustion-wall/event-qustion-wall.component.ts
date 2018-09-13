@@ -5,7 +5,8 @@ import { EventService } from '../../services/event.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
+import { ChatService } from '../../services/chat.service';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class EventQustionWallComponent implements OnInit {
     private eventService: EventService,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private chat: ChatService,
     private _location: Location
   ) { }
 
@@ -55,17 +57,49 @@ export class EventQustionWallComponent implements OnInit {
     });
     console.log('WaLL 2', this.questionWall);
     console.log('id', this.id);
+    this.chat.onAddQuestion().subscribe((data: QuestionWall[]) => {
+      this.questionWall = data;
+      console.log(data);
+
+    });
+    this.chat.onAddAnswer().subscribe((data: any) => {
+      console.log('answer', data.answer);
+      this.questionWall.forEach(element => {
+        if (element._id === data.questionId) {
+          element.answers.push(data.answer.answer);
+        }
+      });
+    });
 
   }
 
   onAddQuestion(input: HTMLInputElement) {
-    this.eventService.httpAskQuestion(this.id, this.username, input.value, this.userId);
+    this.eventService.httpAskQuestion(this.id, this.username, input.value, this.userId)
+      .subscribe(data => {
+        this.chat.addQuestion(this.id);
+        console.log(data);
+      });
     // this.questionWall = this.eventService.getQaWall();
   }
   onAnswerQuestion(questionId: string, input: HTMLInputElement) {
-    this.eventService.httpAnswerQuestion(this.id, this.username, questionId, input.value, this.userId);
-    console.log('qid', questionId);
-    console.log('qid', input.value);
+    this.eventService.httpAnswerQuestion(this.id, this.username,
+      questionId, input.value, this.userId)
+      .subscribe(data => {
+        this.chat.addAnswer(this.id, questionId, data);
+
+        // this.qaWall.push(data.answer);
+        // if (this.qaWall.answers) {
+        // }
+        // this.questionWall.forEach(element => {
+        //     if (element._id === questionId) {
+        //       element.answers.push(data.answer);
+        //       console.log(element.answers);
+        //   }
+        // });
+        console.log('qid', this.questionWall);
+        //   this.chat.addQuestion(this.id);
+      });
+
   }
   backClicked() {
     this._location.back();

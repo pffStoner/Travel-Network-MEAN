@@ -16,8 +16,7 @@ const userSchema = mongoose.Schema({
     name: { type: String, require: false },
     description: { type: String, require: false },
     eventId: { type: String, require: false }
-  }],
-  mailbox: [mailboxSchema ]
+  }]
 });
 
 
